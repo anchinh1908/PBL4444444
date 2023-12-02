@@ -1,5 +1,6 @@
 package View;
 
+import ConnectSocket.CSocket;
 import Controller.DAO_ClientList;
 import Controller.DAOnv;
 import Model.M_Hoadon;
@@ -8,7 +9,11 @@ import Model.M_Sanpham;
 import Model.M_SanphamCT;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -28,6 +33,8 @@ public class Main extends javax.swing.JFrame {
     private List<M_Sanpham> sanpham;
     private List<M_SanphamCT> sanphamCT;
     
+    
+    
     private DefaultTableModel ModelNV;
     private DefaultTableModel ModelHD;
     private DefaultTableModel ModelSP;
@@ -35,14 +42,34 @@ public class Main extends javax.swing.JFrame {
     private DefaultTableModel ModelSPCT;
     
     private DAO_ClientList DAOLIST = new DAO_ClientList();
+    private DAOnv DAONV = new DAOnv();
+
+        private Timer timer;
+        private CSocket soc = new CSocket();
+
 
     public Main() {
         initComponents();
         show();
         init();
-        
-        
-        
+                // kiểm tra trạng thái login để chạy giao diện
+                
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(soc.Timer){
+                    soc.Timer = false;
+                    if(soc.TableNV){
+                        DesginNVTable();
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Sai Username hoạc password bạn cần nhập lại");
+                    }
+                }
+                
+            }
+        });// Bắt đầu timer
+        timer.start();
     }
 
      public void Show(){
@@ -821,6 +848,7 @@ public class Main extends javax.swing.JFrame {
         jLabel6.setText("Ngày sinh");
         pnThongTin.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, -1));
 
+        txtluong.setText("123");
         txtluong.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 33, 89)));
         txtluong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -842,6 +870,7 @@ public class Main extends javax.swing.JFrame {
         jLabel8.setText("Họ tên");
         pnThongTin.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 62, -1));
 
+        txtManv.setText("QL04");
         txtManv.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 33, 89)));
         txtManv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -850,6 +879,7 @@ public class Main extends javax.swing.JFrame {
         });
         pnThongTin.add(txtManv, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 220, 30));
 
+        txtTennv.setText("Nhun");
         txtTennv.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 33, 89)));
         txtTennv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -870,6 +900,7 @@ public class Main extends javax.swing.JFrame {
         jLabel11.setText("Email");
         pnThongTin.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 73, -1));
 
+        txtdiachi.setText("1313");
         txtdiachi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 33, 89)));
         txtdiachi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -878,6 +909,7 @@ public class Main extends javax.swing.JFrame {
         });
         pnThongTin.add(txtdiachi, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 390, 220, 30));
 
+        txtemail.setText("nhun@gmail.com");
         txtemail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 33, 89)));
         txtemail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1119,7 +1151,21 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btResetActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        M_Nhanvien nv=new M_Nhanvien();
         
+        if(txtManv.getText().length()!=0 && txtTennv.getText().length()!=0 && txtDiachi.getText().length()!=0
+                && txtluong.getText().length!=0){
+            nv.setManv(txtManv.getText());
+            nv.setTennv(txtTennv.getText());
+            nv.setChucvu(txtchucvu.getSelectedItem().toString());
+            nv.setDate(txtngaysinh.getDate());
+            nv.setGt(txtgioitinh.getSelectedItem().toString());
+            nv.setDiachi(txtdiachi.getText());
+            nv.setEmail(txtemail.getText());
+            nv.setLuong(Integer.parseInt(txtluong.getText()));
+        }
+       DAONV.addNV(nv);
+             
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateActionPerformed
@@ -1131,10 +1177,24 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFindActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-       
+       int selectedIndex = tableInfor.getSelectedRow();
+       M_Nhanvien nv = nhanvien.get(selectedIndex);
+        //System.out.println(nv.getId());
+        nv.getId();
+       DAONV.deleteNV(nv);
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void tableInforMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableInforMouseClicked
+        int selectedIndex=tableInfor.getSelectedRow();
+        M_Nhanvien nv=nhanvien.get(selectedIndex);
+        txtManv.setText(nv.getManv());
+        txtTennv.setText(nv.getTennv());
+        txtdiachi.setText(nv.getDiachi());
+        txtchucvu.setSelectedItem(nv.getChucvu());
+        txtgioitinh.setSelectedItem(nv.getGt());
+        txtngaysinh.setDate(nv.getDate());
+        txtemail.setText(nv.getEmail());
+        txtluong.setText(nv.getLuong()+"");        
         
     }//GEN-LAST:event_tableInforMouseClicked
 

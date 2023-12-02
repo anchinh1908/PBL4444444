@@ -1209,8 +1209,9 @@ public class MainFrame extends javax.swing.JFrame {
        selectedIndex=tableInfor.getSelectedRow();
        M_Nhanvien nv= nhanvien.get(selectedIndex);
        JOptionPane.showConfirmDialog(this,"Bạn có chắc muốn xóa");
-       new DAOnv().DeleteNV(nv.getId());
-       showTableNV();
+        System.out.println(nv.getId());
+//       new DAOnv().DeleteNV(nv.getId());
+//       showTableNV();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateActionPerformed

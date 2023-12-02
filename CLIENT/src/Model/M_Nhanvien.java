@@ -7,7 +7,6 @@ import java.util.Date;
 
 public class M_Nhanvien {
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    
     private int id;
     private String Manv,Tennv,Chucvu,Gt,Diachi,Email;
     private Date date;
@@ -37,8 +36,7 @@ public class M_Nhanvien {
         this.Email = Email;
         this.date = date;
         this.luong = luong;
-    }
-    
+    }   
 
     public int getId() {
         return id;
@@ -116,7 +114,7 @@ public class M_Nhanvien {
     public static M_Nhanvien fromString(String str) {
     M_Nhanvien nhanvien = new M_Nhanvien();
 
-    String[] parts = str.split(" ");
+    String[] parts = str.split("_");
     for (String part : parts) {
         String[] keyValue = part.split("/");
         if (keyValue.length == 2) {
@@ -161,5 +159,11 @@ public class M_Nhanvien {
 
     return nhanvien;
 }
-
+    @Override
+    public String toString() {
+    return "ID/" + id + "_MaNV/" + Manv + "_TenNV/" +Tennv  + "_CV/" + Chucvu+"_NgaySinh/"+sdf.format(date)+ "_GT/" + Gt + "_DiaChi/" +Diachi  + "_Email/" + Email + "_Luong/" + luong;
+    }
+    public String toString2(){
+        return "_MaNV/" + Manv + "_TenNV/" +Tennv  + "_CV/" + Chucvu+"_NgaySinh/"+sdf.format(date)+ "_GT/" + Gt + "_DiaChi/" +Diachi  + "_Email/" + Email + "_Luong/" + luong;
+    }
 }

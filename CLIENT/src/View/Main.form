@@ -1785,6 +1785,7 @@
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtluong">
                           <Properties>
+                            <Property name="text" type="java.lang.String" value="123"/>
                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                                 <LineBorder>
@@ -1862,6 +1863,7 @@
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtManv">
                           <Properties>
+                            <Property name="text" type="java.lang.String" value="QL04"/>
                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                                 <LineBorder>
@@ -1881,6 +1883,7 @@
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtTennv">
                           <Properties>
+                            <Property name="text" type="java.lang.String" value="Nhun"/>
                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                                 <LineBorder>
@@ -1939,6 +1942,7 @@
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtdiachi">
                           <Properties>
+                            <Property name="text" type="java.lang.String" value="1313"/>
                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                                 <LineBorder>
@@ -1958,6 +1962,7 @@
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtemail">
                           <Properties>
+                            <Property name="text" type="java.lang.String" value="nhun@gmail.com"/>
                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                                 <LineBorder>

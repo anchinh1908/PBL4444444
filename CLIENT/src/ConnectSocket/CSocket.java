@@ -18,16 +18,22 @@ import javax.swing.JOptionPane;
 
 
 public class CSocket {
-    private Socket Client;
-    private Clients account;
+    private  Socket Client;
     private DAO_ClientList ClientList = new DAO_ClientList();
     public boolean Timer = false;
     public boolean StatusLogin = false;
+    public boolean TableNV = false;
     
 
+    private  void initializeSocket(){
+        if(Client == null){
+            Connect();
+        }
+    }
+    
+    
     public CSocket() {
-        Connect();
-//        onlineList = new ArrayList<>();
+        initializeSocket();
 
     }
         
@@ -35,15 +41,14 @@ public class CSocket {
     public void Connect()
     {
         try {
-        Client = new Socket("localhost", 1234);
-        account = new Clients( Client, "MyName");
+        Client = new Socket("192.168.1.253", 1234);
         Client.setReceiveBufferSize(16384);
         // Bắt đầu kết nối thành công
         
          // Tạo luồng lắng nghe dữ liệu từ server
         Thread receiveThread = new Thread(() -> {
                     // đưa hàm nhận dữ liệu
-                    Receive(account);   
+                    Receive(Client);   
         });
         receiveThread.start();
     } catch (IOException e) {
@@ -72,6 +77,8 @@ public class CSocket {
             // Gửi dữ liệu dưới dạng UTF-8 để đảm bảo đọc đúng bởi server
             out.writeUTF(mess);
             out.flush();
+            System.out.println("Thanh cong" + Client);
+
         } catch (Exception e) {
             e.printStackTrace(); // In thông báo lỗi hoặc ghi log
 
@@ -80,14 +87,14 @@ public class CSocket {
     
     
  // hàm nhận chuỗi thông tin từ server gửi qua
-       public void Receive(Clients Account){
+       public void Receive(Socket Account){
             DataInputStream in = null ;
         try {
             // Sử dụng DataInputStream để đọc dữ liệu từ client
-            in = new DataInputStream(Account.getSocket().getInputStream());
+            in = new DataInputStream(Account.getInputStream());
             
             
-            while (Account.getSocket().isConnected()) {
+            while (Account.isConnected()) {
                 // Đọc tin nhắn từ client
                 String message = in.readUTF(); // message : thông tin nhận đc
 
@@ -108,6 +115,7 @@ public class CSocket {
                         if(parts[1].equals("NV")){
                             List<M_Nhanvien> nv = convertStringToList(parts[2]);
                             ClientList.receiveAndStoreData(nv); // đưa list lưu DAO_ClientList
+                            TableNV = true;
                             // list nhân viên
                         }
                     }

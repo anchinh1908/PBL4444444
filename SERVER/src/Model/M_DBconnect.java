@@ -11,9 +11,9 @@ public class M_DBconnect {
     public static Connection con=null;
     
     public static void loadConnection(){
-        String url = "jdbc:mysql://localhost:3309/pbl4";
+        String url = "jdbc:mysql://localhost:3360/pbl";
         String root = "root";
-        String pass = "123456789";
+        String pass = "Chinhm245#";
                 
         try{
            con=DriverManager.getConnection(url,root,pass);
