@@ -11,10 +11,16 @@ import Model.M_DBconnect;
 import Model.M_Nhanvien;
 import Model.M_Sanpham;
 import Model.M_SanphamCT;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 public class Home extends javax.swing.JFrame {
 
@@ -27,26 +33,29 @@ public class Home extends javax.swing.JFrame {
     private int selectedIndex;
     private int selectedIndexSP;
     
-    private DefaultTableModel model;
-    private DefaultListModel modelList;
-    
-    private DefaultTableModel ModelSP;
-    private DefaultTableModel ModelSPCT;
+    private DefaultTableModel ModelTBClient;
+    private DefaultTableModel ModelTBNV;
+    private DefaultTableModel ModelTBSP;
+    private DefaultTableModel ModelTBSPCT;
 
     public SVSocket sv;
+    
+    private DefaultListModel modelStatus, modelList;
+    private Timer timer;
+
 
     public Home() {
         M_DBconnect.loadConnection();
         initComponents();
         modelList = new DefaultListModel();
         this.Show();
-      
-        
-        ModelSP=(DefaultTableModel)TableSP.getModel();
-        ModelSPCT=(DefaultTableModel)TableSPCT.getModel();
-        showTableSP();
-        showTableSPCT();
-        
+
+        ModelTBClient = (DefaultTableModel)TableClient.getModel();
+        showTableClient();
+
+
+        modelList = new DefaultListModel();        
+        modelStatus = new DefaultListModel();
     }
     
     public void Show(){
@@ -171,7 +180,7 @@ public class Home extends javax.swing.JFrame {
                 btnDATAActionPerformed(evt);
             }
         });
-        jPanel2.add(btnDATA, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 460, 330, 60));
+        jPanel2.add(btnDATA, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 330, 60));
 
         txtPort.setBackground(new java.awt.Color(54, 33, 89));
         txtPort.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 24)); // NOI18N
@@ -204,7 +213,7 @@ public class Home extends javax.swing.JFrame {
                 btnShowNVActionPerformed(evt);
             }
         });
-        jPanel2.add(btnShowNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 520, 330, 40));
+        jPanel2.add(btnShowNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 330, 40));
 
         btnShowSP.setBackground(new java.awt.Color(54, 33, 89));
         btnShowSP.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -216,7 +225,7 @@ public class Home extends javax.swing.JFrame {
                 btnShowSPActionPerformed(evt);
             }
         });
-        jPanel2.add(btnShowSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 560, 330, 40));
+        jPanel2.add(btnShowSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 480, 330, 40));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 820));
 
@@ -263,7 +272,7 @@ public class Home extends javax.swing.JFrame {
         mã.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         mã.setForeground(new java.awt.Color(54, 33, 89));
         mã.setText("Mã nhân viên:");
-        jPanelThongtinnhanvien.add(mã, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, 50));
+        jPanelThongtinnhanvien.add(mã, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, 50));
 
         txtMa.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         txtMa.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
@@ -276,17 +285,17 @@ public class Home extends javax.swing.JFrame {
         ten.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         ten.setForeground(new java.awt.Color(54, 33, 89));
         ten.setText("Họ và tên");
-        jPanelThongtinnhanvien.add(ten, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 110, 50));
+        jPanelThongtinnhanvien.add(ten, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 110, 50));
 
         gioitinh.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         gioitinh.setForeground(new java.awt.Color(54, 33, 89));
         gioitinh.setText("Giới tính");
-        jPanelThongtinnhanvien.add(gioitinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 110, 50));
+        jPanelThongtinnhanvien.add(gioitinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 110, 50));
 
         cv.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         cv.setForeground(new java.awt.Color(54, 33, 89));
         cv.setText("Chức vụ");
-        jPanelThongtinnhanvien.add(cv, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 110, 50));
+        jPanelThongtinnhanvien.add(cv, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 110, 50));
 
         txtDiachi.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         txtDiachi.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
@@ -295,12 +304,12 @@ public class Home extends javax.swing.JFrame {
         date.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         date.setForeground(new java.awt.Color(54, 33, 89));
         date.setText("Ngày sinh");
-        jPanelThongtinnhanvien.add(date, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 110, 50));
+        jPanelThongtinnhanvien.add(date, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 110, 50));
 
         diachi.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         diachi.setForeground(new java.awt.Color(54, 33, 89));
         diachi.setText("Địa chỉ");
-        jPanelThongtinnhanvien.add(diachi, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 110, 50));
+        jPanelThongtinnhanvien.add(diachi, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 110, 50));
 
         txtLuong.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         txtLuong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
@@ -313,12 +322,12 @@ public class Home extends javax.swing.JFrame {
         email.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         email.setForeground(new java.awt.Color(54, 33, 89));
         email.setText("Email");
-        jPanelThongtinnhanvien.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 110, 50));
+        jPanelThongtinnhanvien.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 110, 50));
 
         lương.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lương.setForeground(new java.awt.Color(54, 33, 89));
         lương.setText("Lương");
-        jPanelThongtinnhanvien.add(lương, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 480, 110, 50));
+        jPanelThongtinnhanvien.add(lương, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 480, 110, 50));
 
         rdNam.setText("Nam");
         jPanelThongtinnhanvien.add(rdNam, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, -1, -1));
@@ -364,7 +373,7 @@ public class Home extends javax.swing.JFrame {
                 btnDelActionPerformed(evt);
             }
         });
-        jPanelThongtinnhanvien.add(btnDel, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 720, 120, 50));
+        jPanelThongtinnhanvien.add(btnDel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 720, 180, 50));
 
         btnSearch.setBackground(new java.awt.Color(54, 33, 89));
         btnSearch.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
@@ -376,7 +385,7 @@ public class Home extends javax.swing.JFrame {
                 btnSearchActionPerformed(evt);
             }
         });
-        jPanelThongtinnhanvien.add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 550, 120, 50));
+        jPanelThongtinnhanvien.add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 550, 120, 90));
 
         btnRefesh.setBackground(new java.awt.Color(54, 33, 89));
         btnRefesh.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
@@ -388,7 +397,7 @@ public class Home extends javax.swing.JFrame {
                 btnRefeshActionPerformed(evt);
             }
         });
-        jPanelThongtinnhanvien.add(btnRefesh, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 720, 180, 50));
+        jPanelThongtinnhanvien.add(btnRefesh, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 680, 120, 90));
         jPanelThongtinnhanvien.add(jDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 310, 230, 30));
 
         panelListEmployee.add(jPanelThongtinnhanvien, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 370, 800));
@@ -622,18 +631,27 @@ public class Home extends javax.swing.JFrame {
 
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
         // TODO add your handling code here:
-            modelList.addElement("Server connecting ...");
-            ListStatus.setModel(modelList);
+             updateListModelStatus("Server connecting ...");
         try {
             sv = new SVSocket();
-            Home homeframe = new Home();
-            sv.setHomeFrame(homeframe);
-    
-            modelList.addElement("Server has successfully connected");
-           
-            ListStatus.setModel(modelList);
+            
+            updateListModelStatus("Server has successfully connected");
         } catch (Exception e) {
         }
+         timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(sv.ModelStatus){
+                    sv.ModelStatus = false;
+                    updateListModelStatus(sv.StatusStr);
+                }
+                if(sv.Modelclient){
+                    sv.Modelclient = false;
+                    updateListModelClient(sv.ClientStr);
+                }
+            }
+        });// Bắt đầu timer
+        timer.start();
         btnStart.setEnabled(false);
     }//GEN-LAST:event_btnStartActionPerformed
 
@@ -657,7 +675,7 @@ public class Home extends javax.swing.JFrame {
         panelListClients.setVisible(false);
         //đưa dữ liệu lên bảng
         this.setLocationRelativeTo(null);
-//        model = (DefaultTableModel)TableClient.getModel();
+//\       model = (DefaultTableModel)TableClient.getModel();
         showTableClient();
     }//GEN-LAST:event_btnCLIENTActionPerformed
 
@@ -670,8 +688,8 @@ public class Home extends javax.swing.JFrame {
         panelListClients.setVisible(false);
         //đưa dữ liệu lên bảng
         this.setLocationRelativeTo(null);
-        model = (DefaultTableModel)TableNV.getModel();
-        showTableDATA();
+        ModelTBNV = (DefaultTableModel)TableNV.getModel();
+        showTableNV();
     }//GEN-LAST:event_btnShowNVActionPerformed
 
     private void btnShowSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowSPActionPerformed
@@ -680,7 +698,11 @@ public class Home extends javax.swing.JFrame {
         panelListClients.setVisible(false);
         panelListEmployee.setVisible(false);
       //  panelListEmployee.setVisible(false);
-      this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
+        ModelTBSP=(DefaultTableModel)TableSP.getModel();
+        showTableSP();
+        ModelTBSPCT = (DefaultTableModel)TableSPCT.getModel();
+        showTableSPCT();
     }//GEN-LAST:event_btnShowSPActionPerformed
 
     
@@ -752,7 +774,7 @@ public class Home extends javax.swing.JFrame {
         }
         if(isOK){
             new DAOnv().AddNV(nv);
-            showTableDATA();
+            showTableNV();
             JOptionPane.showMessageDialog(this, "Sửa thành công");
         }
         }
@@ -764,7 +786,7 @@ public class Home extends javax.swing.JFrame {
        M_Nhanvien nv= nhanvien.get(selectedIndex);
        JOptionPane.showConfirmDialog(this,"Bạn có chắc muốn xóa");
        new DAOnv().DeleteNV(nv.getId());
-       showTableDATA();
+       showTableNV();
     }//GEN-LAST:event_btnDelActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
@@ -772,9 +794,9 @@ public class Home extends javax.swing.JFrame {
             String Name=txtTen.getText();
         if(Name.length()>0){
             nhanvien=new DAOnv().findbyName(Name);
-            model.setRowCount(0);
+            ModelTBNV.setRowCount(0);
         for(M_Nhanvien nv:nhanvien){
-            model.addRow(new Object[]{
+            ModelTBNV.addRow(new Object[]{
             TableNV.getRowCount()+1,nv.getManv(),nv.getTennv(),nv.getChucvu(),nv.getDate(),nv.getGt(),nv.getDiachi(),nv.getEmail(),nv.getLuong()
         });
         }
@@ -792,7 +814,7 @@ public class Home extends javax.swing.JFrame {
         txtDiachi.setText("");
         txtEmail.setText("");
         txtLuong.setText("");
-        showTableDATA();
+        showTableNV();
     }//GEN-LAST:event_btnRefeshActionPerformed
 
     private void TableNVMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableNVMouseClicked
@@ -915,24 +937,54 @@ public class Home extends javax.swing.JFrame {
 
         
     //thuộc paneldata
-    private void showTableDATA(){
+    private void showTableNV(){
         nhanvien = new DAOnv().getListNV();
-        model.setRowCount(0);
+        ModelTBNV.setRowCount(0);
         for(M_Nhanvien nv : nhanvien){
-            model.addRow(new Object[]{
+            ModelTBNV.addRow(new Object[]{
             TableNV.getRowCount()+1,nv.getManv(), nv.getTennv(), nv.getChucvu(), nv.getDate(), nv.getGt(), nv.getDiachi(), nv.getEmail(), nv.getLuong()
         });
         }
+        TableNV.setRowHeight(30);
+        TableNV.setShowGrid(true);
+        TableNV.setBackground(new Color(255,255,255,255));
+        TableNV.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,18));
+        TableNV.getTableHeader().setOpaque(false);
+        TableNV.getTableHeader().setBackground(new Color(111,86,153));
+        TableNV.getTableHeader().setForeground(new Color(255,255,255));
+        TableNV.setBackground(Color.WHITE);
+        Color purple = new Color(204,204,255);
+        TableNV.setSelectionBackground(purple);
+        Font font = new Font("Segoe UI", Font.BOLD, 14);
+        TableNV.setFont(font);
+        JTableHeader tableHeader = TableNV.getTableHeader();
+        Font headerFont = new Font("Segoe UI", Font.BOLD, 18);
+        tableHeader.setFont(headerFont);
     }
     private void showTableClient(){
         client = new DAOclient().getListClients();
-        model.setRowCount(0);
+        ModelTBClient.setRowCount(0);
         
         for(M_Client c : client){
-            model.addRow(new Object[]{
+            ModelTBClient.addRow(new Object[]{
             TableClient.getRowCount()+1, c.getUsername(), c.getBlock()
         });
         }
+        TableClient.setRowHeight(30);
+        TableClient.setShowGrid(true);
+        TableClient.setBackground(new Color(255,255,255,255));
+        TableClient.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,18));
+        TableClient.getTableHeader().setOpaque(false);
+        TableClient.getTableHeader().setBackground(new Color(111,86,153));
+        TableClient.getTableHeader().setForeground(new Color(255,255,255));
+        TableClient.setBackground(Color.WHITE);
+        Color purple = new Color(204,204,255);
+        TableClient.setSelectionBackground(purple);
+        Font font = new Font("Segoe UI", Font.BOLD, 14);
+        TableClient.setFont(font);
+        JTableHeader tableHeader = TableClient.getTableHeader();
+        Font headerFont = new Font("Segoe UI", Font.BOLD, 18);
+        tableHeader.setFont(headerFont);
     } 
 
     public void updateListModel(String string) {
@@ -943,23 +995,64 @@ public class Home extends javax.swing.JFrame {
 
     private void showTableSP() {
         sanpham=new DAOsp().getListSP();
-        ModelSP.setRowCount(0);
+        ModelTBSP.setRowCount(0);
         for(M_Sanpham sp:sanpham){
-            ModelSP.addRow(new Object[]{
+            ModelTBSP.addRow(new Object[]{
                 TableSP.getRowCount(),sp.getMasp(),sp.getTensp(),sp.getTenloai(),sp.getSoluong(),sp.getGia()
             });
         }
+        TableSP.setBackground(new Color(255,255,255,255));
+        TableSP.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,16));
+        TableSP.getTableHeader().setOpaque(false);
+        TableSP.getTableHeader().setBackground(new Color(111,86,153));
+        TableSP.getTableHeader().setForeground(new Color(255,255,255));
+                
+        TableSP.setRowHeight(30);
+        TableSP.setShowGrid(true);
+        //TableSPCT.setGridColor(Color.BLACK);
+        TableSP.setBackground(Color.WHITE);
+        Color purple = new Color(204,204,255);
+        TableSP.setSelectionBackground(purple);
+        Font font = new Font("Segoe UI", Font.BOLD, 14);
+        TableSP.setFont(font);
+        JTableHeader tableHeader = TableSP.getTableHeader();
+        Font headerFont = new Font("Segoe UI", Font.BOLD, 16);
+        tableHeader.setFont(headerFont);
     }
 
     private void showTableSPCT() {
         sanphamCT=new DAOspCT().getListSPCT();
-        ModelSPCT.setRowCount(0);
+        ModelTBSPCT.setRowCount(0);
         for(M_SanphamCT spct:sanphamCT){
-            ModelSPCT.addRow(new Object[]{
+            ModelTBSPCT.addRow(new Object[]{
                 TableSPCT.getRowCount(),spct.getMaloai(),spct.getTenloai(),spct.getMota()
             });
         }
+        TableSPCT.setRowHeight(30);
+        TableSPCT.setShowGrid(true);
+        TableSPCT.setBackground(new Color(255,255,255,255));
+        TableSPCT.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,16));
+        TableSPCT.getTableHeader().setOpaque(false);
+        TableSPCT.getTableHeader().setBackground(new Color(111,86,153));
+        TableSPCT.getTableHeader().setForeground(new Color(255,255,255));
+        TableSPCT.setBackground(Color.WHITE);
+        
+        Color purple = new Color(204,204,255);
+        TableSPCT.setSelectionBackground(purple);
+        Font font = new Font("Segoe UI", Font.BOLD, 14);
+        TableSPCT.setFont(font);
+        JTableHeader tableHeader = TableSPCT.getTableHeader();
+        Font headerFont = new Font("Segoe UI", Font.BOLD, 18);
+        tableHeader.setFont(headerFont);
     }
     
-    
+    public void updateListModelStatus(String string) {
+        modelStatus.addElement(string);
+        ListStatus.setModel(modelStatus);
+    }
+    public void updateListModelClient(String string) {
+        modelList.addElement(string);
+        ListClient.setModel(modelList);
+    }
+
 }

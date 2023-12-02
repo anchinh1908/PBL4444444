@@ -111,5 +111,9 @@ public class M_Nhanvien implements Serializable{
     public void setLuong(int luong) {
         this.luong = luong;
     }
-    
+    @Override
+    public String toString() {
+    return "ID/" + id + " MaNV/" + Manv + " TenNV/" +Tennv  + " CV/" + Chucvu+" NgaySinh/"+date+ " GT/" + Gt + " DiaChi/" +Diachi  + " Email/" + Email + " Luong/" + luong;
+}
+
 }

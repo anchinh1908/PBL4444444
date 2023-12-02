@@ -4,25 +4,27 @@ package Model;
 public class M_Sanpham {
     private int id,Masp;
     private String Tensp,Tenloai;
-    private int Soluong;
+    private int Maloai, Soluong;
     private int gia;
 
     public M_Sanpham(){
     }
 
-    public M_Sanpham(int Masp, String Tensp, String Tenloai, int Soluong, int gia) {
-        this.Masp = Masp;
-        this.Tensp = Tensp;
-        this.Tenloai = Tenloai;
-        this.Soluong = Soluong;
-        this.gia = gia;
-    }
-
-    public M_Sanpham(int id, int Masp, String Tensp, String Tenloai, int Soluong, int gia) {
+    public M_Sanpham(int id, int Masp, String Tensp, String Tenloai, int Maloai, int Soluong, int gia) {
         this.id = id;
         this.Masp = Masp;
         this.Tensp = Tensp;
         this.Tenloai = Tenloai;
+        this.Maloai = Maloai;
+        this.Soluong = Soluong;
+        this.gia = gia;
+    }
+
+    public M_Sanpham(int Masp, String Tensp, String Tenloai, int Maloai, int Soluong, int gia) {
+        this.Masp = Masp;
+        this.Tensp = Tensp;
+        this.Tenloai = Tenloai;
+        this.Maloai = Maloai;
         this.Soluong = Soluong;
         this.gia = gia;
     }
@@ -59,6 +61,14 @@ public class M_Sanpham {
         this.Tenloai = Tenloai;
     }
 
+    public int getMaloai() {
+        return Maloai;
+    }
+
+    public void setMaloai(int Maloai) {
+        this.Maloai = Maloai;
+    }
+
     public int getSoluong() {
         return Soluong;
     }
@@ -75,9 +85,4 @@ public class M_Sanpham {
         this.gia = gia;
     }
 
-
-
-
-
-    
 }

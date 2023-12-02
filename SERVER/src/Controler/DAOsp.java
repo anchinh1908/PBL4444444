@@ -15,9 +15,9 @@ public class DAOsp {
     public ArrayList<M_Sanpham> getListSP()
     {
         ArrayList<M_Sanpham> list=new ArrayList<>();
-        String sql="SELECT * FROM sanpham";
+        String sql="SELECT Masanpham,Tensanpham,Tenloai,Soluong,Gia FROM ctsp JOIN sanpham ON ctsp.Maloai = sanpham.Maloai;";
         try{
-            PreparedStatement ps=M_DBconnect.con.prepareStatement(sql);
+            PreparedStatement ps =M_DBconnect.con.prepareStatement(sql);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
                 M_Sanpham n=new M_Sanpham();
@@ -40,7 +40,7 @@ public class DAOsp {
             PreparedStatement ps=M_DBconnect.con.prepareStatement(sql);
             ps.setInt(1,(int) s.getMasp());
             ps.setString(2,s.getTensp());
-            ps.setString(3,s.getTenloai());
+            ps.setInt(3,s.getMaloai());
             ps.setInt(4,s.getSoluong());
             ps.setInt(5, (int) s.getGia());
             ps.executeUpdate();
@@ -71,7 +71,7 @@ public class DAOsp {
                 M_Sanpham n=new M_Sanpham();
                 n.setMasp(rs.getInt("Masanpham"));  
                 n.setTensp(rs.getString("Tensanpham"));
-                n.setTenloai(rs.getString("Tenloai"));
+                n.setMaloai(rs.getInt("Tenloai"));
                 n.setSoluong(rs.getInt("Soluong"));
                 n.setGia(rs.getInt("Gia"));
                 list.add(n);                        

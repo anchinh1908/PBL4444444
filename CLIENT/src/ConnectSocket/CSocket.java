@@ -1,49 +1,51 @@
 
 package ConnectSocket;
 
+import Controller.DAO_ClientList;
+import Model.M_Nhanvien;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
-import Model.M_Nhanvien;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
- 
-//////////CLIENT///////////
+
 
 public class CSocket {
-    private Socket soc;
+    private Socket Client;
     private Clients account;
+    private DAO_ClientList ClientList = new DAO_ClientList();
+    public boolean Timer = false;
+    public boolean StatusLogin = false;
+    
+
     public CSocket() {
-        //Connect();
+        Connect();
 //        onlineList = new ArrayList<>();
 
     }
         
-    // kết nối cổng  
+// kết nối cổng 
     public void Connect()
     {
-        try { //mở kết nối
-        soc = new Socket("localhost", 7777);
-        
-       // soc.setReceiveBufferSize(16384);
+        try {
+        Client = new Socket("localhost", 1234);
+        account = new Clients( Client, "MyName");
+        Client.setReceiveBufferSize(16384);
         // Bắt đầu kết nối thành công
         
-       account = new Clients( soc, "MyName");
-        
-        // Tạo luồng lắng nghe dữ liệu từ server
-        Thread listenThread = new Thread(() -> {
-            // đưa hàm nhận dữ liệu
-            ReceiveUP(account);
+         // Tạo luồng lắng nghe dữ liệu từ server
+        Thread receiveThread = new Thread(() -> {
+                    // đưa hàm nhận dữ liệu
+                    Receive(account);   
         });
-        listenThread.setDaemon(true);
-        listenThread.start();
-    } catch (UnknownHostException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Lỗi kết nối", "Lỗi", JOptionPane.WARNING_MESSAGE);
+        receiveThread.start();
     } catch (IOException e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(null, "Lỗi kết nối", "Lỗi", JOptionPane.WARNING_MESSAGE);
@@ -51,17 +53,20 @@ public class CSocket {
     }
     
     // đóng kết nối 
-    public void Close(){
+     public void Close(Socket client)
+    {
         try{
-            soc.close();
+            client.close();
         }catch(IOException ex){
             ex.printStackTrace();
-            }
+        }
     }
+     
+//hiện tại để dùng cho client gửi username và password để server ktra 
     public void SendMess(String mess){
         try {
             // Sử dụng DataOutputStream thay vì ObjectOutputStream
-            OutputStream outputStream = soc.getOutputStream();
+            OutputStream outputStream = Client.getOutputStream();
             DataOutputStream out = new DataOutputStream(outputStream);
             
             // Gửi dữ liệu dưới dạng UTF-8 để đảm bảo đọc đúng bởi server
@@ -74,24 +79,39 @@ public class CSocket {
     }
     
     
-       public void ReceiveUP(Clients account){
-
-        DataInputStream in = null ;
+ // hàm nhận chuỗi thông tin từ server gửi qua
+       public void Receive(Clients Account){
+            DataInputStream in = null ;
         try {
             // Sử dụng DataInputStream để đọc dữ liệu từ client
-            in = new DataInputStream(account.getSocket().getInputStream());
-
-            while (account.getSocket().isConnected()) {
+            in = new DataInputStream(Account.getSocket().getInputStream());
+            
+            
+            while (Account.getSocket().isConnected()) {
                 // Đọc tin nhắn từ client
-                String message = in.readUTF();
+                String message = in.readUTF(); // message : thông tin nhận đc
 
                 // Xử lý tin nhắn, ví dụ: in ra console
-                if (message.equals("LoginOk")) {
-                //xử lý login thành công
-                }else{
-                    // hiện thông báo và nhập lại
-                    
-                }
+                String[] parts = message.split(":");
+                if (parts.length > 1) {
+                    // login:true/false : đây kết kiểm tra tài khoản đăng nhập đúng hay sai bên server trả về
+                    if (parts [0].equals("Login")){
+                        if(parts[1].equals("true")){
+                            Timer = true;
+                            StatusLogin = true;
+                        }else{
+                            Timer = true;
+                            StatusLogin = false;
+                        }
+                    // Table:NV:....
+                    }else if(parts [0].equals("Table")){ 
+                        if(parts[1].equals("NV")){
+                            List<M_Nhanvien> nv = convertStringToList(parts[2]);
+                            ClientList.receiveAndStoreData(nv); // đưa list lưu DAO_ClientList
+                            // list nhân viên
+                        }
+                    }
+                } 
 
                 // Thực hiện xử lý thông điệp theo nhu cầu của bạn
             }
@@ -108,36 +128,16 @@ public class CSocket {
             }
     }
     }
-       /////////////TEST//////////
        
-       //hàm gửi nhân viên
-       public void sendEmployee(M_Nhanvien nv){
-           try {
-            ObjectOutputStream oos=new ObjectOutputStream(soc.getOutputStream());
-            oos.writeObject(nv); //gui nhan vien sang Server
-               
-           } catch (Exception e) {
-               e.printStackTrace();
-           }           
-       }       
-       public String getResult(){
-        String res="";
-        try {
-            ObjectInputStream ois=new ObjectInputStream(soc.getInputStream());
-            res=(String)ois.readObject(); //nhan thong diep "Success" or "Failed"
-        } catch (Exception e) {
-            e.printStackTrace();
+    private static List<M_Nhanvien> convertStringToList(String nvStrings) {
+        List<M_Nhanvien> nhanviens = new ArrayList<>();
+        String[] nvString = nvStrings.split("\n");
+        for (String str : nvString) {
+            M_Nhanvien nv = M_Nhanvien.fromString(str);
+            if (nv != null) {
+                nhanviens.add(nv);
+            }
         }
-        return res;
+        return nhanviens;
     }
-       
 }
-               
-               
-               
-               
-               
-               
-               
-               
-    

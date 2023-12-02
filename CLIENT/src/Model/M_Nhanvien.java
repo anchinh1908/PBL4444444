@@ -1,11 +1,13 @@
 
 package Model;
 
-import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class M_Nhanvien implements Serializable{
+public class M_Nhanvien {
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    
     private int id;
     private String Manv,Tennv,Chucvu,Gt,Diachi,Email;
     private Date date;
@@ -111,5 +113,53 @@ public class M_Nhanvien implements Serializable{
     public void setLuong(int luong) {
         this.luong = luong;
     }
-    
+    public static M_Nhanvien fromString(String str) {
+    M_Nhanvien nhanvien = new M_Nhanvien();
+
+    String[] parts = str.split(" ");
+    for (String part : parts) {
+        String[] keyValue = part.split("/");
+        if (keyValue.length == 2) {
+            String key = keyValue[0].trim();
+            String value = keyValue[1].trim();
+            switch (key) {
+                case "ID":
+                    nhanvien.setId(Integer.parseInt(value));
+                    break;
+                case "MaNV":
+                    nhanvien.setManv(value);
+                    break;
+                case "TenNV":
+                    nhanvien.setTennv(value);
+                    break;
+                case "CV":
+                    nhanvien.setChucvu(value);
+                    break;
+                case "NgaySinh":
+                    try{
+                        nhanvien.setDate(sdf.parse(value));
+                    }catch(Exception e){
+                        System.out.println("Model.M_Nhanvien.fromString()");
+                    }
+                    break;
+                case "GT":
+                    nhanvien.setGt(value);
+                    break;
+                case "DiaChi":
+                    nhanvien.setDiachi(value);
+                    break;
+                case "Email":
+                    nhanvien.setEmail(value);
+                    break;
+                case "Luong":
+                    nhanvien.setLuong(Integer.parseInt(value));
+                    break;
+                // Thêm các trường khác nếu có
+            }
+        }
+    }
+
+    return nhanvien;
+}
+
 }

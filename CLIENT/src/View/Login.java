@@ -3,16 +3,41 @@ package View;
 
 import ConnectSocket.CSocket;
 import Controller.C_checkLogin;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 public class Login extends javax.swing.JFrame {
     
     
     public CSocket soc ;
+    private Timer timer;
+
     
     public Login() {
         initComponents();
         soc = new CSocket();
+        
+        // kiểm tra trạng thái login để chạy giao diện
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(soc.Timer){
+                    soc.Timer = false;
+                    if(soc.StatusLogin){
+                        Main mainObj=new Main();
+                        mainObj.show();
+                        Close();
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Sai Username hoạc password bạn cần nhập lại");
+                    }
+                }
+                
+            }
+        });// Bắt đầu timer
+        timer.start();
     }
 
 
@@ -79,9 +104,16 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(54, 33, 89));
         jLabel2.setText("Password");
 
+        txtusername.setText("hue");
         txtusername.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 33, 89)));
 
+        txtpassword.setText("123");
         txtpassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 102)));
+        txtpassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtpasswordActionPerformed(evt);
+            }
+        });
 
         btnlogin.setBackground(new java.awt.Color(54, 33, 89));
         btnlogin.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -166,24 +198,19 @@ public class Login extends javax.swing.JFrame {
         if(username.isEmpty()|| pass.isEmpty()){
             JOptionPane.showMessageDialog(rootPane, "Bạn chưa nhập đầy đủ");
         }else{
-            soc.SendMess("Login: "+username +","+ pass );
-//            if (check){
-//                sendmess("login thanh cong")
-//            }
-            MainFrame mainObj=new MainFrame();
-            mainObj.show();
-            this.hide(); 
+            soc.SendMess("Login:"+username +","+ pass );
         }
-//        if(true){
-//            MainFrame mainObj=new MainFrame();
-//            mainObj.show();
-//            this.hide(); 
+          
 //        }
     }//GEN-LAST:event_btnloginActionPerformed
 //bt thoat:
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         this.hide();
     }//GEN-LAST:event_btnExitActionPerformed
+
+    private void txtpasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtpasswordActionPerformed
 
     public static void main(String args[]) {
        
@@ -206,4 +233,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTextField txtpassword;
     private javax.swing.JTextField txtusername;
     // End of variables declaration//GEN-END:variables
+
+    private void Close(){
+        this.hide();
+    }   
 }

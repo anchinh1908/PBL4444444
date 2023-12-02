@@ -15,7 +15,7 @@ public class DAOsp {
     public ArrayList<M_Sanpham> getListSP()
     {
         ArrayList<M_Sanpham> list=new ArrayList<>();
-        String sql="SELECT * FROM sanpham";
+        String sql="SELECT Masanpham,Tensanpham,Tenloai,Soluong,Gia FROM ctsp JOIN sanpham ON ctsp.Maloai = sanpham.Maloai;";
         try{
             PreparedStatement ps=M_DBconnect.con.prepareStatement(sql);
             ResultSet rs=ps.executeQuery();
@@ -82,34 +82,34 @@ public class DAOsp {
         return list;
     }
     //đổ tên loại sản phẩm từ textfield vào combobox tên loại sản phẩm
-    public int countCategories(){
-        int total=0;
-        try{
-            Statement st=M_DBconnect.con.createStatement();
-            ResultSet rs=st.executeQuery("Select count(*) as 'total' from ctsp");
-            if(rs.next()){
-                total=rs.getInt(1);
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return total;     
-        }
-    public String[] getCat(){
-        String[] categories=new String[countCategories()];
-        try{
-            Statement st=M_DBconnect.con.createStatement();
-            ResultSet rs=st.executeQuery("Select * from ctsp");
-            int i=0;
-            while(rs.next()){
-                categories[i]=rs.getString(2);
-                i++;
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return categories; 
-    }
+//    public int countCategories(){
+//        int total=0;
+//        try{
+//            Statement st=M_DBconnect.con.createStatement();
+//            ResultSet rs=st.executeQuery("Select count(*) as 'total' from ctsp");
+//            if(rs.next()){
+//                total=rs.getInt(1);
+//            }
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+//        return total;     
+//        }
+//    public String[] getCat(){
+//        String[] categories=new String[countCategories()];
+//        try{
+//            Statement st=M_DBconnect.con.createStatement();
+//            ResultSet rs=st.executeQuery("Select * from ctsp");
+//            int i=0;
+//            while(rs.next()){
+//                categories[i]=rs.getString(2);
+//                i++;
+//            }
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+//        return categories; 
+//    }
     //hàm kiểm tra tên sản phẩm và tên loại sản phẩm đã tồn tại
     public boolean isProCateExist(String pro, String cat){
         String sql="SELECT * FROM sanpham where Tensanpham = ? and Tenloai=?";
