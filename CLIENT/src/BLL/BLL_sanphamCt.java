@@ -80,16 +80,16 @@ public class BLL_sanphamCt {
         List<M_SanphamCT> spList = getListSPCT();
         for (M_SanphamCT sp : spList) {
         if (sp.getMaloai()== ID) {
-             sp.setStatus(true);
+             sp.setStatus("editable");
             }
         }
    }
-    public void ChangeStatusFalse (int ID){
+    public void ChangeStatusFalse (int ID,String name){
        
         List<M_SanphamCT> spList = getListSPCT();
         for (M_SanphamCT sp : spList) {
         if (sp.getMaloai()== ID) {
-             sp.setStatus(false);
+             sp.setStatus(name);
             }
         }
    }

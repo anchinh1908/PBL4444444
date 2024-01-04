@@ -15,7 +15,7 @@ public class frameNhanVien extends javax.swing.JFrame {
 
     @Override
     public void setDefaultCloseOperation(int operation) {
-        super.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        super.setDefaultCloseOperation(DISPOSE_ON_CLOSE);    
     }
     
     public frameNhanVien() {
@@ -34,7 +34,6 @@ public class frameNhanVien extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         ID = nv.getId();
-        txtManv.setText(nv.getManv());
         txtTennv.setText(nv.getTennv());
         txtdiachi.setText(nv.getDiachi());
         txtchucvu.setSelectedItem(nv.getChucvu());
@@ -42,6 +41,7 @@ public class frameNhanVien extends javax.swing.JFrame {
         txtngaysinh.setDate(nv.getDate());
         txtemail.setText(nv.getEmail());
         txtluong.setText(nv.getLuong()+""); 
+        
     }
 
 
@@ -50,8 +50,6 @@ public class frameNhanVien extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanelThongtinnhanvien = new javax.swing.JPanel();
-        mã = new javax.swing.JLabel();
-        txtManv = new javax.swing.JTextField();
         txtTennv = new javax.swing.JTextField();
         ten = new javax.swing.JLabel();
         cv = new javax.swing.JLabel();
@@ -75,37 +73,28 @@ public class frameNhanVien extends javax.swing.JFrame {
         jPanelThongtinnhanvien.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 2, true), "Thông tin nhân viên", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Yu Gothic UI Semibold", 1, 18), new java.awt.Color(54, 33, 89))); // NOI18N
         jPanelThongtinnhanvien.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        mã.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        mã.setForeground(new java.awt.Color(54, 33, 89));
-        mã.setText("Mã nhân viên:");
-        jPanelThongtinnhanvien.add(mã, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, 50));
-
-        txtManv.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
-        txtManv.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
-        jPanelThongtinnhanvien.add(txtManv, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 210, 30));
-
         txtTennv.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         txtTennv.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
-        jPanelThongtinnhanvien.add(txtTennv, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 210, 30));
+        jPanelThongtinnhanvien.add(txtTennv, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 240, 30));
 
         ten.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         ten.setForeground(new java.awt.Color(54, 33, 89));
         ten.setText("Họ và tên");
-        jPanelThongtinnhanvien.add(ten, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 110, 50));
+        jPanelThongtinnhanvien.add(ten, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 110, 50));
 
         cv.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         cv.setForeground(new java.awt.Color(54, 33, 89));
         cv.setText("Chức vụ");
-        jPanelThongtinnhanvien.add(cv, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 110, 50));
+        jPanelThongtinnhanvien.add(cv, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 110, 50));
 
         txtdiachi.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         txtdiachi.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
-        jPanelThongtinnhanvien.add(txtdiachi, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, 210, 30));
+        jPanelThongtinnhanvien.add(txtdiachi, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 110, 240, 30));
 
         date.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         date.setForeground(new java.awt.Color(54, 33, 89));
         date.setText("Ngày sinh");
-        jPanelThongtinnhanvien.add(date, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 110, 50));
+        jPanelThongtinnhanvien.add(date, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 110, 50));
 
         diachi.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         diachi.setForeground(new java.awt.Color(54, 33, 89));
@@ -114,11 +103,11 @@ public class frameNhanVien extends javax.swing.JFrame {
 
         txtluong.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         txtluong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
-        jPanelThongtinnhanvien.add(txtluong, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 50, 210, 30));
+        jPanelThongtinnhanvien.add(txtluong, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 50, 240, 30));
 
         txtemail.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         txtemail.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
-        jPanelThongtinnhanvien.add(txtemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 170, 210, 30));
+        jPanelThongtinnhanvien.add(txtemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 170, 240, 30));
 
         email.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         email.setForeground(new java.awt.Color(54, 33, 89));
@@ -132,7 +121,7 @@ public class frameNhanVien extends javax.swing.JFrame {
 
         txtchucvu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "(BH) Bán Hàng", "(BV) Bảo Vệ", "(QL) Quản Lý" }));
         txtchucvu.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        jPanelThongtinnhanvien.add(txtchucvu, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 260, 210, 30));
+        jPanelThongtinnhanvien.add(txtchucvu, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, 240, 30));
 
         btnOK.setBackground(new java.awt.Color(54, 33, 89));
         btnOK.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -144,7 +133,7 @@ public class frameNhanVien extends javax.swing.JFrame {
                 btnOKActionPerformed(evt);
             }
         });
-        jPanelThongtinnhanvien.add(btnOK, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 240, 120, 50));
+        jPanelThongtinnhanvien.add(btnOK, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 240, 140, 50));
 
         btncancle.setBackground(new java.awt.Color(54, 33, 89));
         btncancle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -156,17 +145,17 @@ public class frameNhanVien extends javax.swing.JFrame {
                 btncancleActionPerformed(evt);
             }
         });
-        jPanelThongtinnhanvien.add(btncancle, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 240, 120, 50));
+        jPanelThongtinnhanvien.add(btncancle, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 240, 140, 50));
 
         txtgioitinh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtgioitinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ", " " }));
         txtgioitinh.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 33, 89)));
-        jPanelThongtinnhanvien.add(txtgioitinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 210, 210, 30));
+        jPanelThongtinnhanvien.add(txtgioitinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 240, 30));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel9.setText("Giới tính");
-        jPanelThongtinnhanvien.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 120, 30));
-        jPanelThongtinnhanvien.add(txtngaysinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 210, 30));
+        jPanelThongtinnhanvien.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 120, 30));
+        jPanelThongtinnhanvien.add(txtngaysinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 240, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -187,10 +176,9 @@ public class frameNhanVien extends javax.swing.JFrame {
         if (ID==0){
             M_Nhanvien nv=new M_Nhanvien();
 
-            if(txtManv.getText()!=null && txtTennv.getText()!=null && txtdiachi.getText()!=null
+            if( txtTennv.getText()!=null && txtdiachi.getText()!=null
                 && txtluong.getText()!=null  && txtngaysinh.getDate()!=null){
                 
-                nv.setManv(txtManv.getText());
                 nv.setTennv(txtTennv.getText());
                 nv.setChucvu(txtchucvu.getSelectedItem().toString());
                 nv.setDate(txtngaysinh.getDate());
@@ -208,10 +196,9 @@ public class frameNhanVien extends javax.swing.JFrame {
 //            trg hợp update là sẽ có ID 
             
            M_Nhanvien nv = new M_Nhanvien();
-           if(txtManv.getText()!=null && txtTennv.getText()!=null && txtdiachi.getText()!=null
+           if( txtTennv.getText()!=null && txtdiachi.getText()!=null
                && txtluong.getText()!=null  && txtngaysinh.getDate()!=null){
                nv.setId(ID);
-               nv.setManv(txtManv.getText());
                nv.setTennv(txtTennv.getText());
                nv.setChucvu(txtchucvu.getSelectedItem().toString());
                nv.setDate(txtngaysinh.getDate());
@@ -219,7 +206,7 @@ public class frameNhanVien extends javax.swing.JFrame {
                nv.setDiachi(txtdiachi.getText());
                nv.setEmail(txtemail.getText());
                nv.setLuong(Integer.parseInt(txtluong.getText()));
-               nv.setStatus(true);
+               nv.setStatus("editable");
            }
            else{
                JOptionPane.showMessageDialog(this, "Chua nhap day du thong tin");
@@ -283,9 +270,7 @@ public class frameNhanVien extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanelThongtinnhanvien;
     private javax.swing.JLabel lương;
-    private javax.swing.JLabel mã;
     private javax.swing.JLabel ten;
-    private javax.swing.JTextField txtManv;
     private javax.swing.JTextField txtTennv;
     private javax.swing.JComboBox<String> txtchucvu;
     private javax.swing.JTextField txtdiachi;

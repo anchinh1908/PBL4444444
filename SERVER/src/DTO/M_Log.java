@@ -9,7 +9,7 @@ public class M_Log {
     private String performerName; 
     private String actionType ; 
     private String tableName;
-    private int recordID;  
+    private String record;  
     private Date changeTime;
 
     // Định nghĩa định dạng ngày giờ
@@ -18,67 +18,68 @@ public class M_Log {
     public M_Log() {
     }
 
-    public M_Log(int logID, String performerName, String actionType, String tableName, int recordID, Date changeTime) {
+    public M_Log(int logID, String performerName, String actionType, String tableName, String record, Date changeTime) {
         this.logID = logID;
         this.performerName = performerName;
         this.actionType = actionType;
         this.tableName = tableName;
-        this.recordID = recordID;
+        this.record = record;
         this.changeTime = changeTime;
     }
 
-    public int getLog_id() {
+    public int getLogID() {
         return logID;
     }
 
-    public void setLog_id(int logID) {
+    public void setLogID(int logID) {
         this.logID = logID;
     }
 
-    public String getPerformer_name() {
+    public String getPerformerName() {
         return performerName;
     }
 
-    public void setPerformer_name(String performerName) {
+    public void setPerformerName(String performerName) {
         this.performerName = performerName;
     }
 
-    public String getAction_type() {
+    public String getActionType() {
         return actionType;
     }
 
-    public void setAction_type(String actionType) {
+    public void setActionType(String actionType) {
         this.actionType = actionType;
     }
 
-    public String getTable_name() {
+    public String getTableName() {
         return tableName;
     }
 
-    public void setTable_name(String tableName) {
+    public void setTableName(String tableName) {
         this.tableName = tableName;
     }
 
-    public int getRecord_id() {
-        return recordID;
+    public String getRecord() {
+        return record;
     }
 
-    public void setRecord_id(int recordID) {
-        this.recordID = recordID;
+    public void setRecord(String record) {
+        this.record = record;
     }
 
-    public Date getChange_time() {
+    public Date getChangeTime() {
         return changeTime;
     }
 
-    public void setChange_time(Date changeTime) {
+    public void setChangeTime(Date changeTime) {
         this.changeTime = changeTime;
     }
+
     
     @Override
     public String toString() {
         return "LogID/" + logID + "_PerformerName/" + performerName + "_ActionType/" + actionType
-                + "_TableName/" + tableName + "_RecordID/" + recordID + "_ChangeTime/" + sdf.format(changeTime);
+                + "_TableName/" + tableName + "_Record/" + record + "_ChangeTime/" + sdf.format(changeTime);
     }
 
     public static M_Log fromString(String str) {
@@ -91,23 +92,23 @@ public class M_Log {
                 String value = keyValue[1].trim();
                 switch (key) {
                     case "LogID":
-                        log.setLog_id(Integer.parseInt(value));
+                        log.setLogID(Integer.parseInt(value));
                         break;
                     case "PerformerName":
-                        log.setPerformer_name(value);
+                        log.setPerformerName(value);
                         break;
                     case "ActionType":
-                        log.setAction_type(value);
+                        log.setActionType(value);
                         break;
                     case "TableName":
-                        log.setTable_name(value);
+                        log.setTableName(value);
                         break;
                     case "RecordID":
-                        log.setRecord_id(Integer.parseInt(value));
+                        log.setRecord(value);
                         break;
                     case "ChangeTime":
                         try {
-                            log.setChange_time(sdf.parse(value));
+                            log.setChangeTime(sdf.parse(value));
                         } catch (Exception e) {
                             System.out.println("M_Log.fromString()");
                         }

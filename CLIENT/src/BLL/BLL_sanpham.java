@@ -66,16 +66,16 @@ public class BLL_sanpham {
         List<M_Sanpham> spList = getListSP();
         for (M_Sanpham sp : spList) {
         if (sp.getMasp() == ID) {
-             sp.setStatus(true);
+             sp.setStatus("editable");
             }
         }
    }
-    public void ChangeStatusFalse (int ID){
+    public void ChangeStatusFalse (int ID,String name){
        
         List<M_Sanpham> spList = getListSP();
         for (M_Sanpham sp : spList) {
         if (sp.getMasp()== ID) {
-             sp.setStatus(false);
+             sp.setStatus(name);
             }
         }
    }

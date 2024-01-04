@@ -7,18 +7,17 @@ import java.util.Date;
 public class M_Nhanvien {
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private int id;
-    private String Manv,Tennv,Chucvu,Gt,Diachi,Email;
+    private String Tennv,Chucvu,Gt,Diachi,Email;
     private Date date;
     private int luong;
-    private boolean Status;
+    private String Status;
 
 
     public M_Nhanvien(){
     }
 
-    public M_Nhanvien(int id, String Manv, String Tennv, String Chucvu, String Gt, String Diachi, String Email, Date date, int luong) {
+    public M_Nhanvien(int id, String Tennv, String Chucvu, String Gt, String Diachi, String Email, Date date, int luong, String Status) {
         this.id = id;
-        this.Manv = Manv;
         this.Tennv = Tennv;
         this.Chucvu = Chucvu;
         this.Gt = Gt;
@@ -26,7 +25,9 @@ public class M_Nhanvien {
         this.Email = Email;
         this.date = date;
         this.luong = luong;
+        this.Status = Status;
     }
+
     
 
     public int getId() {
@@ -35,14 +36,6 @@ public class M_Nhanvien {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getManv() {
-        return Manv;
-    }
-
-    public void setManv(String Manv) {
-        this.Manv = Manv;
     }
 
     public String getTennv() {
@@ -99,17 +92,19 @@ public class M_Nhanvien {
     public void setLuong(int luong) {
         this.luong = luong;
     }
-        public boolean getStatus() {
+
+    public String getStatus() {
         return Status;
     }
 
-    public void setStatus(boolean Status) {
+    public void setStatus(String Status) {
         this.Status = Status;
     }
+   
     
     @Override
     public String toString() {
-    return "ID/" + id + "_MaNV/" + Manv + "_TenNV/" +Tennv  + "_CV/" + Chucvu+"_NgaySinh/"+sdf.format(date)+ "_GT/" + Gt + "_DiaChi/" +Diachi  + "_Email/" + Email + "_Luong/" + luong+"_Status/"+Status;
+    return "ID/" + id + "_TenNV/" +Tennv  + "_CV/" + Chucvu+"_NgaySinh/"+sdf.format(date)+ "_GT/" + Gt + "_DiaChi/" +Diachi  + "_Email/" + Email + "_Luong/" + luong+"_Status/"+Status;
     }
     
     public static M_Nhanvien fromString(String str) {
@@ -124,9 +119,6 @@ public class M_Nhanvien {
             switch (key) {
                 case "ID":
                     nhanvien.setId(Integer.parseInt(value));
-                    break;
-                case "MaNV":
-                    nhanvien.setManv(value);
                     break;
                 case "TenNV":
                     nhanvien.setTennv(value);
@@ -154,7 +146,7 @@ public class M_Nhanvien {
                     nhanvien.setLuong(Integer.parseInt(value));
                     break;
                 case "Status":
-                    nhanvien.setStatus(Boolean.parseBoolean(value));
+                    nhanvien.setStatus(value);
                     break;
                 // Thêm các trường khác nếu có
             }

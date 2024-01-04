@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 public class Main extends javax.swing.JFrame {
-    
+    private Login login;
     private List<M_Nhanvien> nhanvien  ;
     private List<M_Sanpham> sanpham;
     private List<M_SanphamCT> sanphamCT;
@@ -39,8 +39,9 @@ public class Main extends javax.swing.JFrame {
         init();
     }
 
-    public Main(CSocket socket) {
+    public Main(CSocket socket,Login login) {
         this.soc = socket;
+        this.login = login;
         this.BLLnv = new BLL_nhanvien(soc);        
         this.BLLsp = new BLL_sanpham(soc);
         this.BLLspct = new BLL_sanphamCt(soc);
@@ -58,16 +59,13 @@ public class Main extends javax.swing.JFrame {
                         soc.TableNV=false;
                         ShowNVTable(BLLnv.getListNV());
                     }
-                    else if(soc.TableSP){
+                    if(soc.TableSP){
                         soc.TableSP=false;
                         ShowSPTable(BLLsp.getListSP());
                     }
-                    else if(soc.TableSPCT){
+                    if(soc.TableSPCT){
                         soc.TableSPCT=false;
                         ShowSPCTTable(BLLspct.getListSPCT());
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(null, "Sai Username hoạc Password bạn cần nhập lại");
                     }
                 }
                 
@@ -77,6 +75,7 @@ public class Main extends javax.swing.JFrame {
     }
 
      public void Show(){
+        txtFullname.setText(soc.getFullname());
         panelNhanvien.setVisible(true);
         panelDonhang.setVisible(false);
         pnSanpham.setVisible(false);
@@ -102,12 +101,7 @@ public class Main extends javax.swing.JFrame {
         btnSanpham = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
-        btnDonhang = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel31 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txtPort = new javax.swing.JTextField();
+        txtFullname = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         btnĐangxuat = new javax.swing.JPanel();
         jLabel30 = new javax.swing.JLabel();
@@ -201,13 +195,13 @@ public class Main extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("NHÂN VIÊN");
-        btnNhanvien.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 150, -1));
+        jLabel1.setText("EMPLOYEE");
+        btnNhanvien.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 140, -1));
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/employee.png"))); // NOI18N
-        btnNhanvien.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 70, 60));
+        btnNhanvien.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 20, 70, 60));
 
-        sidepanel.add(btnNhanvien, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 260, 90));
+        sidepanel.add(btnNhanvien, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 180, 150));
 
         btnSanpham.setBackground(new java.awt.Color(85, 65, 118));
         btnSanpham.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -220,54 +214,29 @@ public class Main extends javax.swing.JFrame {
         jLabel26.setBackground(new java.awt.Color(255, 255, 255));
         jLabel26.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel26.setText("SẢN PHẨM");
-        btnSanpham.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, 140, -1));
+        jLabel26.setText("PRODUCT");
+        btnSanpham.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 120, -1));
 
         jLabel27.setBackground(new java.awt.Color(255, 255, 255));
         jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/gift.png"))); // NOI18N
-        btnSanpham.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 70));
+        btnSanpham.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 20, 70, 70));
 
-        sidepanel.add(btnSanpham, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 340, 260, 80));
+        sidepanel.add(btnSanpham, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 430, 180, 140));
 
-        btnDonhang.setBackground(new java.awt.Color(85, 65, 118));
-        btnDonhang.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnDonhangMouseClicked(evt);
+        txtFullname.setEditable(false);
+        txtFullname.setBackground(new java.awt.Color(54, 33, 89));
+        txtFullname.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtFullname.setForeground(new java.awt.Color(255, 255, 255));
+        txtFullname.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txtFullname.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFullnameActionPerformed(evt);
             }
         });
-        btnDonhang.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel12.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel12.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("ĐƠN HÀNG");
-        btnDonhang.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 150, -1));
-
-        jLabel14.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/clipboard.png"))); // NOI18N
-        btnDonhang.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 60));
-
-        jLabel31.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/clipboard.png"))); // NOI18N
-        btnDonhang.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 60));
-
-        sidepanel.add(btnDonhang, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 260, 80));
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("PORT:");
-        sidepanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 60, 30));
-
-        txtPort.setEditable(false);
-        txtPort.setBackground(new java.awt.Color(54, 33, 89));
-        txtPort.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        txtPort.setForeground(new java.awt.Color(255, 255, 255));
-        txtPort.setText("     1234");
-        txtPort.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
-        sidepanel.add(txtPort, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 110, 40));
+        sidepanel.add(txtFullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 160, 30));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/client (1).png"))); // NOI18N
-        sidepanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 120, 130));
+        sidepanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 120, 130));
 
         btnĐangxuat.setBackground(new java.awt.Color(85, 65, 118));
         btnĐangxuat.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -280,16 +249,16 @@ public class Main extends javax.swing.JFrame {
         jLabel30.setBackground(new java.awt.Color(255, 255, 255));
         jLabel30.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
         jLabel30.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel30.setText("ĐĂNG XUẤT");
-        btnĐangxuat.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 150, -1));
+        jLabel30.setText("EXIT");
+        btnĐangxuat.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, 60, -1));
 
         jLabel32.setBackground(new java.awt.Color(255, 255, 255));
         jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/logout (1).png"))); // NOI18N
-        btnĐangxuat.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 60));
+        btnĐangxuat.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 70, 60));
 
-        sidepanel.add(btnĐangxuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 720, 260, 80));
+        sidepanel.add(btnĐangxuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 620, 180, 140));
 
-        jPanel3.add(sidepanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 800));
+        jPanel3.add(sidepanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 760));
 
         panelContainer.setBackground(new java.awt.Color(204, 204, 255));
         panelContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -298,7 +267,6 @@ public class Main extends javax.swing.JFrame {
         panelNhanvien.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnThongTin.setBackground(new java.awt.Color(204, 204, 255));
-        pnThongTin.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 2, true));
         pnThongTin.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btShow.setBackground(new java.awt.Color(54, 33, 89));
@@ -316,31 +284,31 @@ public class Main extends javax.swing.JFrame {
         btnAdd.setBackground(new java.awt.Color(54, 33, 89));
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
-        btnAdd.setText("THÊM");
+        btnAdd.setText("ADD");
         btnAdd.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
             }
         });
-        pnThongTin.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 30, 100, 40));
+        pnThongTin.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 30, 100, 40));
 
         btUpdate.setBackground(new java.awt.Color(54, 33, 89));
         btUpdate.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btUpdate.setForeground(new java.awt.Color(255, 255, 255));
-        btUpdate.setText("SỬA");
+        btUpdate.setText("UPDATE");
         btUpdate.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         btUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btUpdateActionPerformed(evt);
             }
         });
-        pnThongTin.add(btUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 30, 100, 40));
+        pnThongTin.add(btUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 30, 100, 40));
 
         btnFind.setBackground(new java.awt.Color(54, 33, 89));
         btnFind.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnFind.setForeground(new java.awt.Color(255, 255, 255));
-        btnFind.setText("TÌM KIẾM");
+        btnFind.setText("Search");
         btnFind.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         btnFind.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -352,14 +320,14 @@ public class Main extends javax.swing.JFrame {
         btnDelete.setBackground(new java.awt.Color(54, 33, 89));
         btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnDelete.setForeground(new java.awt.Color(255, 255, 255));
-        btnDelete.setText("XÓA");
+        btnDelete.setText("DELETE");
         btnDelete.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
             }
         });
-        pnThongTin.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 30, 100, 40));
+        pnThongTin.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 30, 100, 40));
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
@@ -369,7 +337,7 @@ public class Main extends javax.swing.JFrame {
 
             },
             new String [] {
-                "STT", "Mã nhân viên", "Họ tên", "Chức vụ", "Ngày sinh", "Giới tính", "Địa chỉ", "Email", "Lương"
+                "STT", "Fullname", "Position", "Birthdate", "Gender", "Address", "Email", "Salary(VND)", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -381,16 +349,27 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(TableNhanVien);
+        if (TableNhanVien.getColumnModel().getColumnCount() > 0) {
+            TableNhanVien.getColumnModel().getColumn(0).setPreferredWidth(20);
+            TableNhanVien.getColumnModel().getColumn(1).setMinWidth(150);
+            TableNhanVien.getColumnModel().getColumn(2).setMinWidth(70);
+            TableNhanVien.getColumnModel().getColumn(3).setMinWidth(70);
+            TableNhanVien.getColumnModel().getColumn(4).setMinWidth(40);
+            TableNhanVien.getColumnModel().getColumn(5).setMinWidth(60);
+            TableNhanVien.getColumnModel().getColumn(6).setMinWidth(200);
+            TableNhanVien.getColumnModel().getColumn(7).setMinWidth(70);
+            TableNhanVien.getColumnModel().getColumn(8).setMinWidth(70);
+        }
 
-        pnThongTin.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 1180, 660));
+        pnThongTin.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 1190, 640));
 
         txtSearch.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         txtSearch.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
         pnThongTin.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 390, 40));
 
-        panelNhanvien.add(pnThongTin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 770));
+        panelNhanvien.add(pnThongTin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1260, 760));
 
-        panelContainer.add(panelNhanvien, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 1450));
+        panelContainer.add(panelNhanvien, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1260, 760));
 
         pnSanpham.setBackground(new java.awt.Color(204, 204, 255));
         pnSanpham.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -399,6 +378,8 @@ public class Main extends javax.swing.JFrame {
         jTabbedPane1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1190, 710));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1190, 710));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         TableSPCT.setModel(new javax.swing.table.DefaultTableModel(
@@ -406,17 +387,30 @@ public class Main extends javax.swing.JFrame {
 
             },
             new String [] {
-                "STT", "Mã loại", "Tên loại ", "Mô tả"
+                "STT", "Tên loại ", "Mô tả", "Trạng thái"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         TableSPCT.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableSPCTMouseClicked(evt);
             }
         });
         jScrollPane6.setViewportView(TableSPCT);
+        if (TableSPCT.getColumnModel().getColumnCount() > 0) {
+            TableSPCT.getColumnModel().getColumn(0).setPreferredWidth(20);
+            TableSPCT.getColumnModel().getColumn(1).setPreferredWidth(200);
+            TableSPCT.getColumnModel().getColumn(2).setPreferredWidth(200);
+        }
 
-        jPanel1.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 1170, 610));
+        jPanel1.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 1180, 610));
 
         btUpdateCT.setBackground(new java.awt.Color(54, 33, 89));
         btUpdateCT.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -427,7 +421,7 @@ public class Main extends javax.swing.JFrame {
                 btUpdateCTActionPerformed(evt);
             }
         });
-        jPanel1.add(btUpdateCT, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 30, 110, 44));
+        jPanel1.add(btUpdateCT, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 30, 110, 44));
 
         btAddCT.setBackground(new java.awt.Color(54, 33, 89));
         btAddCT.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -439,7 +433,7 @@ public class Main extends javax.swing.JFrame {
                 btAddCTActionPerformed(evt);
             }
         });
-        jPanel1.add(btAddCT, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 30, 110, 44));
+        jPanel1.add(btAddCT, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 30, 110, 44));
 
         btDelCT.setBackground(new java.awt.Color(54, 33, 89));
         btDelCT.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -450,11 +444,11 @@ public class Main extends javax.swing.JFrame {
                 btDelCTActionPerformed(evt);
             }
         });
-        jPanel1.add(btDelCT, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 30, 110, 44));
+        jPanel1.add(btDelCT, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 30, 110, 44));
 
         txtSearchCT.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         txtSearchCT.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
-        jPanel1.add(txtSearchCT, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 390, 40));
+        jPanel1.add(txtSearchCT, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 380, 40));
 
         btnFindCT.setBackground(new java.awt.Color(54, 33, 89));
         btnFindCT.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -482,7 +476,6 @@ public class Main extends javax.swing.JFrame {
         jTabbedPane1.addTab("Loại sản phẩm", jPanel1);
 
         PanelTTSp.setBackground(new java.awt.Color(204, 204, 255));
-        PanelTTSp.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 2, true), "Thông tin sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 24), new java.awt.Color(54, 33, 89))); // NOI18N
         PanelTTSp.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btUpdateSP.setBackground(new java.awt.Color(54, 33, 89));
@@ -494,7 +487,7 @@ public class Main extends javax.swing.JFrame {
                 btUpdateSPActionPerformed(evt);
             }
         });
-        PanelTTSp.add(btUpdateSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 60, 106, 44));
+        PanelTTSp.add(btUpdateSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 30, 106, 44));
 
         btDelSP.setBackground(new java.awt.Color(54, 33, 89));
         btDelSP.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -505,7 +498,7 @@ public class Main extends javax.swing.JFrame {
                 btDelSPActionPerformed(evt);
             }
         });
-        PanelTTSp.add(btDelSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 60, 106, 44));
+        PanelTTSp.add(btDelSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 30, 106, 44));
 
         btResetSP.setBackground(new java.awt.Color(54, 33, 89));
         btResetSP.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -516,7 +509,7 @@ public class Main extends javax.swing.JFrame {
                 btResetSPActionPerformed(evt);
             }
         });
-        PanelTTSp.add(btResetSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 60, 106, 40));
+        PanelTTSp.add(btResetSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 30, 106, 40));
 
         btAddSP.setBackground(new java.awt.Color(54, 33, 89));
         btAddSP.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -528,22 +521,35 @@ public class Main extends javax.swing.JFrame {
                 btAddSPActionPerformed(evt);
             }
         });
-        PanelTTSp.add(btAddSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 60, 114, 44));
+        PanelTTSp.add(btAddSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 30, 114, 44));
 
         TableSP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "STT", "Mã sản phẩm", "Tên sản phẩm", "Tên loại", "Số lượng", "Giá"
+                "STT", "Tên sản phẩm", "Tên loại", "Số lượng", "Giá", "Trạng thái"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         TableSP.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableSPMouseClicked(evt);
             }
         });
         jScrollPane5.setViewportView(TableSP);
+        if (TableSP.getColumnModel().getColumnCount() > 0) {
+            TableSP.getColumnModel().getColumn(0).setPreferredWidth(30);
+            TableSP.getColumnModel().getColumn(1).setPreferredWidth(200);
+            TableSP.getColumnModel().getColumn(2).setPreferredWidth(200);
+        }
 
         PanelTTSp.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 1180, 540));
 
@@ -557,17 +563,17 @@ public class Main extends javax.swing.JFrame {
                 btnFindSPActionPerformed(evt);
             }
         });
-        PanelTTSp.add(btnFindSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 60, 110, 40));
+        PanelTTSp.add(btnFindSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 30, 110, 40));
 
         txtSearchSP.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         txtSearchSP.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
-        PanelTTSp.add(txtSearchSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 390, 40));
+        PanelTTSp.add(txtSearchSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 390, 40));
 
         jTabbedPane1.addTab("Sản phẩm", PanelTTSp);
 
-        pnSanpham.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 800));
+        pnSanpham.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1240, 800));
 
-        panelContainer.add(pnSanpham, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 800));
+        panelContainer.add(pnSanpham, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1260, 800));
 
         panelDonhang.setBackground(new java.awt.Color(204, 204, 255));
         panelDonhang.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -863,9 +869,9 @@ public class Main extends javax.swing.JFrame {
 
         panelDonhang.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 510, 480, 120));
 
-        panelContainer.add(panelDonhang, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 800));
+        panelContainer.add(panelDonhang, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1260, 800));
 
-        jPanel3.add(panelContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, 1210, 800));
+        jPanel3.add(panelContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, 1260, 800));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -875,16 +881,16 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 1441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(35, 35, 35)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 931, Short.MAX_VALUE)
+            .addGap(0, 758, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 865, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 66, Short.MAX_VALUE)))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
@@ -903,13 +909,6 @@ public class Main extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnSanphamMouseClicked
 
-    private void btnDonhangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDonhangMouseClicked
-        panelNhanvien.setVisible(false);
-        panelDonhang.setVisible(true);
-        pnSanpham.setVisible(false);
-
-    }//GEN-LAST:event_btnDonhangMouseClicked
-
     private void btAddCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddCTActionPerformed
         frameSPCT spObj=new frameSPCT(soc);
         spObj.show();
@@ -921,7 +920,7 @@ public class Main extends javax.swing.JFrame {
         int selectedIndexspct=TableSPCT.getSelectedRow();
         if(selectedIndexspct != -1){
             M_SanphamCT spct=sanphamCT.get(selectedIndexspct);
-            if(spct.isStatus()){
+            if(spct.getStatus().equals("editable")){
                 soc.SendMess("Obj_Is_Changing:SPCT:"+spct.getMaloai());
                 frameSPCT obj=new frameSPCT(spct,soc);
                 obj.show(); 
@@ -937,7 +936,7 @@ public class Main extends javax.swing.JFrame {
     private void btDelCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDelCTActionPerformed
         int selectedIndexspct=TableSPCT.getSelectedRow();
         M_SanphamCT spct=sanphamCT.get(selectedIndexspct);
-       if(!spct.isStatus()){
+       if(!"editable".equals(spct.getStatus())){
            JOptionPane.showMessageDialog(this, "Đối tượng đang được chỉnh sửa");
        }else     BLLspct.deleteSPCT(spct.getMaloai());
 
@@ -949,7 +948,7 @@ public class Main extends javax.swing.JFrame {
         if (selectedIndex != -1) {
             // Có dòng được chọn
             M_Sanpham sp = sanpham.get(selectedIndex);
-            if(sp.isStatus()){
+            if(sp.getStatus().equals("editable")){
                 soc.SendMess("Obj_Is_Changing:SP:"+sp.getMasp());
                 frameSanPham spObj=new frameSanPham(sp,soc);
                 spObj.show();    
@@ -965,7 +964,7 @@ public class Main extends javax.swing.JFrame {
     private void btDelSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDelSPActionPerformed
        int selectedIndexsp = TableSP.getSelectedRow();
        M_Sanpham sp = sanpham.get(selectedIndexsp);
-              if(!sp.isStatus()){
+              if(!"editable".equals(sp.getStatus())){
            JOptionPane.showMessageDialog(this, "Đối tượng đang được chỉnh sửa");
        }else 
        BLLsp.deleteSP(sp.getMasp());
@@ -1007,7 +1006,7 @@ public class Main extends javax.swing.JFrame {
         if (selectedIndex != -1) {
             // Có dòng được chọn
             M_Nhanvien nv = nhanvien.get(selectedIndex);
-            if(nv.isStatus()){
+            if(nv.getStatus().equals("editable")){
                 soc.SendMess("Obj_Is_Changing:NV:"+nv.getId());
                 frameNhanVien nvObj=new frameNhanVien(nv,soc);
                 nvObj.show();
@@ -1036,9 +1035,9 @@ public class Main extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
        int selectedIndex = TableNhanVien.getSelectedRow();
-       M_Nhanvien nv = nhanvien.get(selectedIndex);
-       if(!nv.isStatus()){
-           JOptionPane.showMessageDialog(this, "Đối tượng đang được chỉnh sửa");
+        M_Nhanvien nv = nhanvien.get(selectedIndex);
+        if(!"editable".equals(nv.getStatus())){           
+        JOptionPane.showMessageDialog(this, "Đối tượng đang được chỉnh sửa");
        }else BLLnv.deleteNV(nv.getId());
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -1068,9 +1067,10 @@ public class Main extends javax.swing.JFrame {
 
     private void btnĐangxuatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnĐangxuatMouseClicked
         JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?","Đăng xuất",JOptionPane.YES_NO_OPTION);
+        soc.Close();
         this.dispose();
- 
-//        soc.Close();
+        Login login = new Login();
+        login.show();
     }//GEN-LAST:event_btnĐangxuatMouseClicked
 
     private void TableSPCTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableSPCTMouseClicked
@@ -1104,6 +1104,10 @@ public class Main extends javax.swing.JFrame {
         ShowSPCTTable(sanphamCT);
     }//GEN-LAST:event_btResetSP1ActionPerformed
 
+    private void txtFullnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFullnameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFullnameActionPerformed
+
     public static void main(String args[]) {
        
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1132,7 +1136,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btUpdateSP;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JPanel btnDonhang;
     private javax.swing.JButton btnFind;
     private javax.swing.JButton btnFindCT;
     private javax.swing.JButton btnFindSP;
@@ -1145,15 +1148,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel btnĐangxuat;
     private javax.swing.JTextField comboboxLoai;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -1164,7 +1164,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
@@ -1193,9 +1192,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTable tableCTSP;
     private javax.swing.JTable tableHoadon;
     private javax.swing.JTextField txtDiachi;
+    private javax.swing.JTextField txtFullname;
     private javax.swing.JTextField txtGia;
     private javax.swing.JTextField txtMasp;
-    private javax.swing.JTextField txtPort;
     private javax.swing.JTextField txtSDT;
     private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtSearchCT;
@@ -1225,24 +1224,27 @@ public class Main extends javax.swing.JFrame {
         ModelNV.setRowCount(0);
         for(M_Nhanvien nv:nhanvien){
             ModelNV.addRow(new Object[]{
-            TableNhanVien.getRowCount()+1,nv.getManv(),nv.getTennv(),nv.getChucvu(),formatDate(nv.getDate()),nv.getGt(),nv.getDiachi(),nv.getEmail(),nv.getLuong()
+            TableNhanVien.getRowCount()+1,nv.getTennv(),nv.getChucvu(),formatDate(nv.getDate()),nv.getGt(),nv.getDiachi(),nv.getEmail(),nv.getLuong(),nv.getStatus()
         });
         }
-        
+        // Tạo một đối tượng renderer mới cho cột "Status"
+        StatusRenderer statusRenderer = new StatusRenderer();
+        TableNhanVien.getColumnModel().getColumn(8).setCellRenderer(statusRenderer);
+
         TableNhanVien.setRowHeight(30);
         TableNhanVien.setShowGrid(true);
         TableNhanVien.setBackground(new Color(255,255,255,255));
-        TableNhanVien.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,18));
+        TableNhanVien.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15));
         TableNhanVien.getTableHeader().setOpaque(false);
         TableNhanVien.getTableHeader().setBackground(new Color(111,86,153));
         TableNhanVien.getTableHeader().setForeground(new Color(255,255,255));
         TableNhanVien.setBackground(Color.WHITE);
         Color purple = new Color(204,204,255);
         TableNhanVien.setSelectionBackground(purple);
-        Font font = new Font("Segoe UI", Font.BOLD, 14);
+        Font font = new Font("Segoe UI", Font.BOLD, 13);
         TableNhanVien.setFont(font);
         JTableHeader tableHeader = TableSPCT.getTableHeader();
-        Font headerFont = new Font("Segoe UI", Font.BOLD, 18);
+        Font headerFont = new Font("Segoe UI", Font.BOLD, 15);
         tableHeader.setFont(headerFont);
     }
         private void ShowSPTable(List<M_Sanpham> sanpham){
@@ -1254,23 +1256,27 @@ public class Main extends javax.swing.JFrame {
         ModelSP.setRowCount(0);
         for(M_Sanpham sp:sanpham){
             ModelSP.addRow(new Object[]{
-                TableSP.getRowCount()+1,sp.getMasp(),sp.getTensp(),sp.getTenloai(),sp.getSoluong(),sp.getGia()
+                TableSP.getRowCount()+1,sp.getTensp(),sp.getTenloai(),sp.getSoluong(),sp.getGia(),sp.getStatus()
             });
         }
+                // Tạo một đối tượng renderer mới cho cột "Status"
+        StatusRenderer statusRenderer = new StatusRenderer();
+        TableSP.getColumnModel().getColumn(5).setCellRenderer(statusRenderer);
+
         TableSP.setRowHeight(30);
         TableSP.setShowGrid(true);
         TableSP.setBackground(new Color(255,255,255,255));
-        TableSP.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,18));
+        TableSP.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15));
         TableSP.getTableHeader().setOpaque(false);
         TableSP.getTableHeader().setBackground(new Color(111,86,153));
         TableSP.getTableHeader().setForeground(new Color(255,255,255));
         TableSP.setBackground(Color.WHITE);
         Color purple = new Color(204,204,255);
         TableSP.setSelectionBackground(purple);
-        Font font = new Font("Segoe UI", Font.BOLD, 14);
+        Font font = new Font("Segoe UI", Font.BOLD, 13);
         TableSP.setFont(font);
         JTableHeader tableHeader = TableSP.getTableHeader();
-        Font headerFont = new Font("Segoe UI", Font.BOLD, 18);
+        Font headerFont = new Font("Segoe UI", Font.BOLD, 15);
         tableHeader.setFont(headerFont);
     }
     private void ShowSPCTTable(List<M_SanphamCT> sanphamCT){
@@ -1283,24 +1289,30 @@ public class Main extends javax.swing.JFrame {
         ModelSPCT.setRowCount(0);
         for(M_SanphamCT spct:sanphamCT){
             ModelSPCT.addRow(new Object[]{
-                TableSPCT.getRowCount()+1,spct.getMaloai(),spct.getTenloai(),spct.getMota()
+                TableSPCT.getRowCount()+1,spct.getTenloai(),spct.getMota(),spct.getStatus()
             });
         }
+        StatusRenderer statusRenderer = new StatusRenderer();
+        TableSPCT.getColumnModel().getColumn(3).setCellRenderer(statusRenderer);
         TableSPCT.setRowHeight(30);
         TableSPCT.setShowGrid(true);
         TableSPCT.setBackground(new Color(255,255,255,255));
-        TableSPCT.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,18));
+        TableSPCT.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15));
         TableSPCT.getTableHeader().setOpaque(false);
         TableSPCT.getTableHeader().setBackground(new Color(111,86,153));
         TableSPCT.getTableHeader().setForeground(new Color(255,255,255));
         TableSPCT.setBackground(Color.WHITE);
         Color purple = new Color(204,204,255);
         TableSPCT.setSelectionBackground(purple);
-        Font font = new Font("Segoe UI", Font.BOLD, 14);
+        Font font = new Font("Segoe UI", Font.BOLD, 13);
         TableSPCT.setFont(font);
         JTableHeader tableHeader = TableSPCT.getTableHeader();
-        Font headerFont = new Font("Segoe UI", Font.BOLD, 18);
+        Font headerFont = new Font("Segoe UI", Font.BOLD, 15);
         tableHeader.setFont(headerFont);
     }
-    
+    private void Close(){
+        this.dispose();
+        timer.stop();
+        soc.Close();
+    }
 }

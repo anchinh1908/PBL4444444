@@ -10,10 +10,10 @@ import java.util.List;
 
 
 public class M_ClientSocket implements Runnable{
-    Socket socket;
-    String username;
-    DataInputStream input;
-    DataOutputStream output;
+    private Socket socket;
+    private String username;
+    private DataInputStream input;
+    private DataOutputStream output;
 //    boolean isLogin;
 
     public M_ClientSocket(Socket socket) {
@@ -65,8 +65,11 @@ public class M_ClientSocket implements Runnable{
     
     public void Close() {
         try {
+            if(input!=null)
             input.close();
+            if(output!=null)
             output.close();
+            if(socket!=null)
             socket.close();   
         } catch (IOException ex) {
             System.err.println(ex.getMessage());
@@ -88,15 +91,15 @@ public class M_ClientSocket implements Runnable{
     { 
         try{
             String DataString = convertListToString(nameTable, List);
-            if(nameTable == "nhanvien"){
+            if(nameTable.equals("nhanvien")){
                 output.writeUTF("Table:NV:"+DataString);
                 output.flush();
 //                System.out.println("DTO.M_ClientSocket.SendDATA() : "+"Table:NV:"+DataString);
-            }else if(nameTable == "sanpham"){
+            }else if(nameTable.equals("sanpham")){
                 output.writeUTF("Table:SP:"+DataString);
                 output.flush(); 
 //                System.out.println("DTO.M_ClientSocket.SendDATA() : "+"Table:SP:"+DataString);
-            }else if(nameTable == "ctsp"){
+            }else if(nameTable.equals("ctsp") ){
                 output.writeUTF("Table:CTSP:"+DataString);
                 output.flush();
 //                System.out.println("DTO.M_ClientSocket.SendDATA() : "+"Table:CTSP:"+DataString);

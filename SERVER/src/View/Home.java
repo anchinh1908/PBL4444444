@@ -1,6 +1,7 @@
 package View;
 
 import BLL.*;
+import DAL.DAOclient;
 import DTO.*;
 import java.awt.Color;
 import java.awt.Font;
@@ -18,11 +19,12 @@ import javax.swing.table.JTableHeader;
 public class Home extends javax.swing.JFrame {
 
     private List<M_Nhanvien> nhanvien;
+    private List<M_Log> Log;
     private List<M_Client> clients;
     private List<M_Sanpham> sanpham;
     private List<M_SanphamCT> sanphamCT;
 
-    private int selectedIndex;
+//    private int selectedIndex;
 
     private DefaultTableModel ModelTBClient;
     private DefaultTableModel ModelTBNV;
@@ -38,19 +40,21 @@ public class Home extends javax.swing.JFrame {
     public Home() {
         M_DBconnect.loadConnection();
         initComponents();
-        modelList = new DefaultListModel();
         this.Show();
 
         ModelTBClient = (DefaultTableModel) TableClient.getModel();
         ModelTBNV = (DefaultTableModel) TableNV.getModel();
+        ModelTBSP = (DefaultTableModel) TableSP.getModel();
+        ModelTBSPCT = (DefaultTableModel) TableSPCT.getModel();
+
         ModelTBLog = (DefaultTableModel) TableLog.getModel();
         showTableClient(new BLL_Client().getListClients());
-        showTableLog(new BLL_Log().getListLog());
-
+        showTableLog();
         modelList = new DefaultListModel();
     }
 
     public void Show() {
+
         btnShowNV.setVisible(false);
         btnShowSP.setVisible(false);
 
@@ -81,24 +85,6 @@ public class Home extends javax.swing.JFrame {
         panelListEmployee = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableNV = new javax.swing.JTable();
-        jPanelThongtinnhanvien = new javax.swing.JPanel();
-        mã = new javax.swing.JLabel();
-        txtMa = new javax.swing.JTextField();
-        txtTen = new javax.swing.JTextField();
-        ten = new javax.swing.JLabel();
-        gioitinh = new javax.swing.JLabel();
-        cv = new javax.swing.JLabel();
-        txtDiachi = new javax.swing.JTextField();
-        date = new javax.swing.JLabel();
-        diachi = new javax.swing.JLabel();
-        txtLuong = new javax.swing.JTextField();
-        txtEmail = new javax.swing.JTextField();
-        email = new javax.swing.JLabel();
-        lương = new javax.swing.JLabel();
-        rdNam = new javax.swing.JRadioButton();
-        rdNu = new javax.swing.JRadioButton();
-        cbbChucvu = new javax.swing.JComboBox<>();
-        jDate = new com.toedter.calendar.JDateChooser();
         panelStatusClient = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         ListClient = new javax.swing.JList<>();
@@ -140,19 +126,19 @@ public class Home extends javax.swing.JFrame {
                 btnStartActionPerformed(evt);
             }
         });
-        jPanel2.add(btnStart, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, 90, 40));
+        jPanel2.add(btnStart, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 70, 40));
 
         jLabel2.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("PORT:");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 70, 60));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 70, 60));
 
         iconHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon_image/home.png"))); // NOI18N
-        jPanel2.add(iconHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 140, 120));
+        jPanel2.add(iconHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 140, 120));
 
         jSeparator1.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 330, 20));
+        jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 240, 10));
 
         btnDATA.setBackground(new java.awt.Color(204, 204, 255));
         btnDATA.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
@@ -165,7 +151,7 @@ public class Home extends javax.swing.JFrame {
                 btnDATAActionPerformed(evt);
             }
         });
-        jPanel2.add(btnDATA, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 330, 100));
+        jPanel2.add(btnDATA, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 240, 120));
 
         txtPort.setBackground(new java.awt.Color(54, 33, 89));
         txtPort.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 24)); // NOI18N
@@ -173,7 +159,12 @@ public class Home extends javax.swing.JFrame {
         txtPort.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtPort.setText("1234");
         txtPort.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
-        jPanel2.add(txtPort, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 100, 30));
+        txtPort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPortActionPerformed(evt);
+            }
+        });
+        jPanel2.add(txtPort, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 150, 70, 40));
 
         btnCLIENT.setBackground(new java.awt.Color(204, 204, 255));
         btnCLIENT.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
@@ -186,7 +177,7 @@ public class Home extends javax.swing.JFrame {
                 btnCLIENTActionPerformed(evt);
             }
         });
-        jPanel2.add(btnCLIENT, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 330, 100));
+        jPanel2.add(btnCLIENT, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 240, 120));
 
         btnShowNV.setBackground(new java.awt.Color(54, 33, 89));
         btnShowNV.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -198,7 +189,7 @@ public class Home extends javax.swing.JFrame {
                 btnShowNVActionPerformed(evt);
             }
         });
-        jPanel2.add(btnShowNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 330, 60));
+        jPanel2.add(btnShowNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 500, 240, 60));
 
         btnShowSP.setBackground(new java.awt.Color(54, 33, 89));
         btnShowSP.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -210,9 +201,9 @@ public class Home extends javax.swing.JFrame {
                 btnShowSPActionPerformed(evt);
             }
         });
-        jPanel2.add(btnShowSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 460, 330, 60));
+        jPanel2.add(btnShowSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 560, 240, 60));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 820));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 820));
 
         panelContainer.setBackground(new java.awt.Color(204, 204, 255));
         panelContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -226,9 +217,17 @@ public class Home extends javax.swing.JFrame {
 
             },
             new String [] {
-                "STT", "Mã NV", "Họ và tên", "Chức vụ", "Ngày sinh", "Giới tính", "Địa chỉ", "Email", "Lương"
+                "STT", "Họ và tên", "Chức vụ", "Ngày sinh", "Giới tính", "Địa chỉ", "Email", "Lương", "Status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         TableNV.setGridColor(new java.awt.Color(204, 204, 255));
         TableNV.setSelectionBackground(new java.awt.Color(204, 204, 255));
         TableNV.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -239,95 +238,17 @@ public class Home extends javax.swing.JFrame {
         jScrollPane1.setViewportView(TableNV);
         if (TableNV.getColumnModel().getColumnCount() > 0) {
             TableNV.getColumnModel().getColumn(0).setPreferredWidth(15);
-            TableNV.getColumnModel().getColumn(1).setPreferredWidth(30);
+            TableNV.getColumnModel().getColumn(1).setPreferredWidth(150);
             TableNV.getColumnModel().getColumn(2).setPreferredWidth(100);
-            TableNV.getColumnModel().getColumn(3).setPreferredWidth(70);
-            TableNV.getColumnModel().getColumn(4).setPreferredWidth(50);
-            TableNV.getColumnModel().getColumn(6).setPreferredWidth(50);
+            TableNV.getColumnModel().getColumn(3).setPreferredWidth(100);
+            TableNV.getColumnModel().getColumn(5).setPreferredWidth(100);
+            TableNV.getColumnModel().getColumn(6).setPreferredWidth(200);
             TableNV.getColumnModel().getColumn(7).setPreferredWidth(100);
-            TableNV.getColumnModel().getColumn(8).setPreferredWidth(30);
         }
 
-        panelListEmployee.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 1090, 560));
+        panelListEmployee.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 1170, 770));
 
-        jPanelThongtinnhanvien.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelThongtinnhanvien.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 2, true), "Thông tin nhân viên", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Yu Gothic UI Semibold", 1, 18), new java.awt.Color(54, 33, 89))); // NOI18N
-        jPanelThongtinnhanvien.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        mã.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        mã.setForeground(new java.awt.Color(54, 33, 89));
-        mã.setText("Mã nhân viên:");
-        jPanelThongtinnhanvien.add(mã, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, 50));
-
-        txtMa.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
-        txtMa.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
-        jPanelThongtinnhanvien.add(txtMa, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 210, 30));
-
-        txtTen.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
-        txtTen.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
-        jPanelThongtinnhanvien.add(txtTen, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 210, 30));
-
-        ten.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        ten.setForeground(new java.awt.Color(54, 33, 89));
-        ten.setText("Họ và tên");
-        jPanelThongtinnhanvien.add(ten, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 110, 50));
-
-        gioitinh.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        gioitinh.setForeground(new java.awt.Color(54, 33, 89));
-        gioitinh.setText("Giới tính");
-        jPanelThongtinnhanvien.add(gioitinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 110, 50));
-
-        cv.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        cv.setForeground(new java.awt.Color(54, 33, 89));
-        cv.setText("Chức vụ");
-        jPanelThongtinnhanvien.add(cv, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 50, 110, 50));
-
-        txtDiachi.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
-        txtDiachi.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
-        jPanelThongtinnhanvien.add(txtDiachi, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 210, 30));
-
-        date.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        date.setForeground(new java.awt.Color(54, 33, 89));
-        date.setText("Ngày sinh");
-        jPanelThongtinnhanvien.add(date, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, 110, 50));
-
-        diachi.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        diachi.setForeground(new java.awt.Color(54, 33, 89));
-        diachi.setText("Địa chỉ");
-        jPanelThongtinnhanvien.add(diachi, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 170, 110, 50));
-
-        txtLuong.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
-        txtLuong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
-        jPanelThongtinnhanvien.add(txtLuong, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 120, 210, 30));
-
-        txtEmail.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
-        txtEmail.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
-        jPanelThongtinnhanvien.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 60, 210, 30));
-
-        email.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        email.setForeground(new java.awt.Color(54, 33, 89));
-        email.setText("Email");
-        jPanelThongtinnhanvien.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 50, 110, 50));
-
-        lương.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lương.setForeground(new java.awt.Color(54, 33, 89));
-        lương.setText("Lương");
-        jPanelThongtinnhanvien.add(lương, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 110, 110, 50));
-
-        rdNam.setText("Nam");
-        jPanelThongtinnhanvien.add(rdNam, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, -1, -1));
-
-        rdNu.setText("Nữ");
-        jPanelThongtinnhanvien.add(rdNu, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 180, -1, -1));
-
-        cbbChucvu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "(BH) Bán Hàng", "(BV) Bảo Vệ", "(QL) Quản Lý" }));
-        cbbChucvu.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        jPanelThongtinnhanvien.add(cbbChucvu, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 60, 210, 30));
-        jPanelThongtinnhanvien.add(jDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 120, 210, 40));
-
-        panelListEmployee.add(jPanelThongtinnhanvien, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1090, 230));
-
-        panelContainer.add(panelListEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1110, 820));
+        panelContainer.add(panelListEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 820));
 
         panelStatusClient.setBackground(new java.awt.Color(255, 255, 255));
         panelStatusClient.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -335,14 +256,14 @@ public class Home extends javax.swing.JFrame {
         ListClient.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 2, true), "Danh sách online", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(54, 33, 89))); // NOI18N
         jScrollPane4.setViewportView(ListClient);
 
-        panelStatusClient.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 10, 250, 310));
+        panelStatusClient.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 10, 250, 310));
 
         TableClient.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "STT", "Username", "Block"
+                "STT", "Fullname", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -359,7 +280,7 @@ public class Home extends javax.swing.JFrame {
             TableClient.getColumnModel().getColumn(1).setPreferredWidth(200);
         }
 
-        panelStatusClient.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 790, 240));
+        panelStatusClient.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 900, 240));
 
         txtSearchClient.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 33, 89)));
         txtSearchClient.addActionListener(new java.awt.event.ActionListener() {
@@ -391,37 +312,42 @@ public class Home extends javax.swing.JFrame {
                 btnBlockActionPerformed(evt);
             }
         });
-        panelStatusClient.add(btnBlock, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 20, 100, 40));
+        panelStatusClient.add(btnBlock, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 20, 100, 40));
 
         TableLog.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "STT", "Người chỉnh sửa", "Bảng", "Hành động", "Mã bản ghi", "Thời gian"
+                "STT", "Người chỉnh sửa", "Bảng", "Hành động", "Thời gian"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        TableLog.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableLogMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(TableLog);
         if (TableLog.getColumnModel().getColumnCount() > 0) {
             TableLog.getColumnModel().getColumn(0).setPreferredWidth(10);
             TableLog.getColumnModel().getColumn(3).setPreferredWidth(150);
-            TableLog.getColumnModel().getColumn(5).setPreferredWidth(200);
+            TableLog.getColumnModel().getColumn(4).setPreferredWidth(200);
         }
 
-        panelStatusClient.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 1060, 460));
+        panelStatusClient.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 1160, 460));
 
-        panelContainer.add(panelStatusClient, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1110, 820));
+        panelContainer.add(panelStatusClient, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 820));
 
         panelListProduct.setBackground(new java.awt.Color(204, 204, 255));
 
@@ -441,9 +367,17 @@ public class Home extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "STT", "Mã loại", "Tên loại", "Mô tả"
+                "STT", "Tên loại", "Mô tả", "Status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane6.setViewportView(TableSPCT);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -452,7 +386,7 @@ public class Home extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 864, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -468,16 +402,16 @@ public class Home extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(103, 103, 103)
+                .addGap(38, 38, 38)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(119, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(92, 92, 92)
+                .addGap(26, 26, 26)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(125, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Chi tiết sản phẩm", jPanel3);
@@ -495,9 +429,17 @@ public class Home extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã sản phẩm", "Tên sản phẩm", "Tên loại", "Số lượng ", "Giá"
+                "STT", "Tên sản phẩm", "Tên loại", "Số lượng ", "Giá", "Status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         TableSP.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableSPMouseClicked(evt);
@@ -511,15 +453,15 @@ public class Home extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 1048, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 1129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(22, Short.MAX_VALUE)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 573, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -527,16 +469,16 @@ public class Home extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
+                .addContainerGap(25, Short.MAX_VALUE)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(22, 22, 22))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(91, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49))
+                .addContainerGap(119, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Thông tin sản phẩm", jPanel4);
@@ -554,9 +496,9 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        panelContainer.add(panelListProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1110, 820));
+        panelContainer.add(panelListProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 820));
 
-        jPanel1.add(panelContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 1110, 820));
+        jPanel1.add(panelContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 1200, 820));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -593,7 +535,7 @@ public class Home extends javax.swing.JFrame {
 
                 if (sv.Modelclient) {
                     sv.Modelclient = false;
-                    updateListModelClient(sv.ClientStr);
+                    updateListModelClient();
                 }
                 if (sv.TableNV) {
                     sv.TableNV = false;
@@ -607,9 +549,14 @@ public class Home extends javax.swing.JFrame {
                     sv.TableSPCT = false;
                     showTableSPCT();
                 }
-                if (sv.TableClient){
+                if (sv.TableClient) {
                     sv.TableClient = false;
-                    showTableClient(clients);
+                    showTableClient(new DAOclient().getListClients());
+                }
+                if(sv.TableLog){
+                    System.out.println("Runtime table Log" );
+                    sv.TableLog = false;
+                    showTableLog();                             
                 }
             }
         });// Bắt đầu timer
@@ -627,18 +574,14 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDATAActionPerformed
 
     private void btnCLIENTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCLIENTActionPerformed
-        // TODO add your handling code here:
-//        btnStatusClient.setVisible(true);
-//        btnShowNV.setVisible(false);
-//        btnShowSP.setVisible(false);
+
         panelStatusClient.setVisible(true);
         panelListEmployee.setVisible(false);
         panelListProduct.setVisible(false);
         //đưa dữ liệu lên bảng
         this.setLocationRelativeTo(null);
-//      model = (DefaultTableModel)TableClient.getModel();
         showTableClient(new BLL_Client().getListClients());
-        showTableLog(new BLL_Log().getListLog());
+        showTableLog();
     }//GEN-LAST:event_btnCLIENTActionPerformed
 
     private void btnShowNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowNVActionPerformed
@@ -668,28 +611,9 @@ public class Home extends javax.swing.JFrame {
 
     private void TableNVMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableNVMouseClicked
 
-        selectedIndex = TableNV.getSelectedRow();
-        M_Nhanvien nv = nhanvien.get(selectedIndex);
-        txtMa.setText(nv.getManv());
-        txtTen.setText(nv.getTennv());
-        cbbChucvu.setSelectedItem(nv.getChucvu());
-        jDate.setDate(nv.getDate());
-        if (nv.getGt() == "Nam") {
-            rdNam.setSelected(true);
-            rdNu.setSelected(false);
-        } else {
-            rdNu.setSelected(true);
-            rdNam.setSelected(false);
-        }
-        txtDiachi.setText(nv.getDiachi());
-        txtEmail.setText(nv.getEmail());
-        txtLuong.setText(Integer.toString(nv.getLuong()));
-
     }//GEN-LAST:event_TableNVMouseClicked
 
     private void TableSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableSPMouseClicked
-//        selectedIndexSP=TableSP.getSelectedRow();
-//        M_Sanpham sp=sanpham.get(selectedIndexSP);
 
     }//GEN-LAST:event_TableSPMouseClicked
 
@@ -714,13 +638,30 @@ public class Home extends javax.swing.JFrame {
         clients = new BLL_Client().getListClients();
         int selectedIndex = TableClient.getSelectedRow();
         M_Client cl = clients.get(selectedIndex);
+
         boolean rs = new BLL_Client().Block(cl);
         if (rs) {
             showTableClient(new BLL_Client().getListClients());
         } else {
             JOptionPane.showMessageDialog(null, "Không thực hiện được");
         }
+
+
     }//GEN-LAST:event_btnBlockActionPerformed
+
+    private void txtPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPortActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPortActionPerformed
+
+    private void TableLogMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableLogMouseClicked
+        Log = new BLL_Log().getListLog();
+        int selectedIndex = TableLog.getSelectedRow();
+        if (selectedIndex != -1) {
+            M_Log log = Log.get(selectedIndex);
+            FrameLog fr = new FrameLog(log);
+            fr.show();
+        }
+    }//GEN-LAST:event_TableLogMouseClicked
 
     public static void main(String args[]) {
 
@@ -747,14 +688,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btnShowSP;
     private javax.swing.JButton btnStart;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<String> cbbChucvu;
-    private javax.swing.JLabel cv;
-    private javax.swing.JLabel date;
-    private javax.swing.JLabel diachi;
-    private javax.swing.JLabel email;
-    private javax.swing.JLabel gioitinh;
     private javax.swing.JLabel iconHome;
-    private com.toedter.calendar.JDateChooser jDate;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -762,7 +696,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanelThongtinnhanvien;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
@@ -771,22 +704,12 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lương;
-    private javax.swing.JLabel mã;
     private javax.swing.JPanel panelContainer;
     private javax.swing.JPanel panelListEmployee;
     private javax.swing.JPanel panelListProduct;
     private javax.swing.JPanel panelStatusClient;
-    private javax.swing.JRadioButton rdNam;
-    private javax.swing.JRadioButton rdNu;
-    private javax.swing.JLabel ten;
-    private javax.swing.JTextField txtDiachi;
-    private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtLuong;
-    private javax.swing.JTextField txtMa;
     private javax.swing.JTextField txtPort;
     private javax.swing.JTextField txtSearchClient;
-    private javax.swing.JTextField txtTen;
     // End of variables declaration//GEN-END:variables
 
     //thuộc paneldata
@@ -796,9 +719,12 @@ public class Home extends javax.swing.JFrame {
         ModelTBNV.setRowCount(0);
         for (M_Nhanvien nv : nhanvien) {
             ModelTBNV.addRow(new Object[]{
-                TableNV.getRowCount() + 1, nv.getManv(), nv.getTennv(), nv.getChucvu(), sdf.format(nv.getDate()), nv.getGt(), nv.getDiachi(), nv.getEmail(), nv.getLuong()
+                TableNV.getRowCount() + 1, nv.getTennv(), nv.getChucvu(), sdf.format(nv.getDate()), nv.getGt(), nv.getDiachi(), nv.getEmail(), nv.getLuong(), nv.getStatus()
             });
         }
+        StatusRenderer statusRenderer = new StatusRenderer();
+        TableNV.getColumnModel().getColumn(8).setCellRenderer(statusRenderer);
+
         TableNV.setRowHeight(30);
         TableNV.setShowGrid(true);
         TableNV.setBackground(new Color(255, 255, 255, 255));
@@ -821,7 +747,7 @@ public class Home extends javax.swing.JFrame {
 
         for (M_Client c : client) {
             ModelTBClient.addRow(new Object[]{
-                TableClient.getRowCount() + 1, c.getUsername(), c.getBlock()
+                TableClient.getRowCount() + 1, c.getFullname(), c.getStatus()
             });
         }
         TableClient.setRowHeight(30);
@@ -841,14 +767,16 @@ public class Home extends javax.swing.JFrame {
         tableHeader.setFont(headerFont);
     }
 
-    private void showTableLog(List<M_Log> Log) {
+    private void showTableLog() {
+        
         ModelTBLog.setRowCount(0);
-
+        Log = new BLL_Log().getListLog();
         for (M_Log l : Log) {
             ModelTBLog.addRow(new Object[]{
-                TableLog.getRowCount() + 1, l.getPerformer_name(), l.getTable_name(), l.getAction_type(), l.getRecord_id(), l.getChange_time()
+                TableLog.getRowCount() + 1, l.getPerformerName(), l.getTableName(), l.getActionType(), l.getChangeTime()
             });
         }
+
         TableLog.setRowHeight(30);
         TableLog.setShowGrid(true);
         TableLog.setBackground(new Color(255, 255, 255, 255));
@@ -871,9 +799,11 @@ public class Home extends javax.swing.JFrame {
         ModelTBSP.setRowCount(0);
         for (M_Sanpham sp : sanpham) {
             ModelTBSP.addRow(new Object[]{
-                TableSP.getRowCount(), sp.getMasp(), sp.getTensp(), sp.getTenloai(), sp.getSoluong(), sp.getGia()
+                TableSP.getRowCount(), sp.getTensp(), sp.getTenloai(), sp.getSoluong(), sp.getGia(), sp.getStatus()
             });
         }
+        StatusRenderer statusRenderer = new StatusRenderer();
+        TableSP.getColumnModel().getColumn(5).setCellRenderer(statusRenderer);
         TableSP.setBackground(new Color(255, 255, 255, 255));
         TableSP.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
         TableSP.getTableHeader().setOpaque(false);
@@ -898,9 +828,12 @@ public class Home extends javax.swing.JFrame {
         ModelTBSPCT.setRowCount(0);
         for (M_SanphamCT spct : sanphamCT) {
             ModelTBSPCT.addRow(new Object[]{
-                TableSPCT.getRowCount(), spct.getMaloai(), spct.getTenloai(), spct.getMota()
+                TableSPCT.getRowCount(), spct.getTenloai(), spct.getMota(), spct.getStatus()
             });
         }
+
+        StatusRenderer statusRenderer = new StatusRenderer();
+        TableSPCT.getColumnModel().getColumn(3).setCellRenderer(statusRenderer);
         TableSPCT.setRowHeight(30);
         TableSPCT.setShowGrid(true);
         TableSPCT.setBackground(new Color(255, 255, 255, 255));
@@ -919,10 +852,12 @@ public class Home extends javax.swing.JFrame {
         tableHeader.setFont(headerFont);
     }
 
-    public void updateListModelClient(List<M_ClientSocket> ClientOnline) {
+    public void updateListModelClient() {
         modelList.clear();
-        for (M_ClientSocket cl : ClientOnline) {
-            modelList.addElement(cl.getUsername());
+        
+        for (M_Client cl : new DAOclient().getListClients()) {
+            if("online".equals(cl.getStatus()))
+            modelList.addElement(cl.getFullname());
         }
         ListClient.setModel(modelList);
 

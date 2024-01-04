@@ -5,7 +5,7 @@ package DTO;
 public class M_SanphamCT {
     private int Maloai;
     private String Tenloai,Mota;
-    private boolean Status;
+    private String Status;
 
    
     public M_SanphamCT(){}
@@ -39,13 +39,15 @@ public class M_SanphamCT {
     public void setMota(String Mota) {
         this.Mota = Mota;
     }       
-    public boolean getStatus() {
+
+    public String getStatus() {
         return Status;
     }
 
-    public void setStatus(boolean Status) {
+    public void setStatus(String Status) {
         this.Status = Status;
     }
+    
 
         @Override
     public String toString() {
@@ -70,7 +72,7 @@ public class M_SanphamCT {
                         spct.setMota(value);
                         break;
                     case "Status":
-                        spct.setStatus(Boolean.parseBoolean(value));
+                        spct.setStatus(value);
                     break;
                     }
                 }

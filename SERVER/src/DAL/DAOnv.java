@@ -20,7 +20,6 @@ public class DAOnv {
             while(rs.next()){
                 M_Nhanvien n=new M_Nhanvien();
                 n.setId(rs.getInt("ID"));
-                n.setManv(rs.getString("Manhanvien"));  
                 n.setTennv(rs.getString("Hoten"));
                 n.setChucvu(rs.getString("Chucvu"));
                 String dateStr = rs.getString("Ngaysinh");
@@ -30,7 +29,7 @@ public class DAOnv {
                 n.setDiachi(rs.getString("Diachi"));
                 n.setEmail(rs.getString("Email"));
                 n.setLuong(rs.getInt("Luong"));
-                n.setStatus(rs.getBoolean("Status"));
+                n.setStatus(rs.getString("Status"));
                 list.add(n);                        
             }
         }catch(Exception e){
@@ -41,20 +40,18 @@ public class DAOnv {
    
     public boolean AddNV(M_Nhanvien n, String name){
         
-        String sql="insert into nhanvien values(null,?,?,?,?,?,?,?,?,?)";
+        String sql="insert into nhanvien values(null,?,?,?,?,?,?,?,?)";
         
         try{
             PreparedStatement ps = M_DBconnect.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1,n.getManv());
-            ps.setString(2,n.getTennv());
-            ps.setString(3,n.getChucvu());
-            ps.setObject(4,n.getDate());
-            ps.setString(5,n.getGt());
-            ps.setString(6,n.getDiachi());
-            ps.setString(7, n.getEmail());
-            ps.setInt(8, n.getLuong());
-            ps.setString(9, "true");
-            
+            ps.setString(1,n.getTennv());
+            ps.setString(2,n.getChucvu());
+            ps.setObject(3,n.getDate());
+            ps.setString(4,n.getGt());
+            ps.setString(5,n.getDiachi());
+            ps.setString(6, n.getEmail());
+            ps.setInt(7, n.getLuong());
+            ps.setString(8,"editable");
             int affectedRows = ps.executeUpdate();
 
                 if (affectedRows > 0) {
@@ -62,7 +59,8 @@ public class DAOnv {
                     try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
                             int newId = generatedKeys.getInt(1);
-                            new DAL.DAO_log().addLogNV(name,"Insert",newId);
+                            n.setId(newId);
+                            new DAL.DAO_log().addLogNV(name,"Insert",n.toString());
                         } else {
                             System.out.println("Không thể lấy ID của đối tượng mới.");
                         }
@@ -73,6 +71,7 @@ public class DAOnv {
                     return false;
                 }
         }catch(SQLException e){
+            e.printStackTrace();
             return false;
         }
     }
@@ -88,20 +87,20 @@ public class DAOnv {
         }
     }
     public boolean updateNV(M_Nhanvien n) {
-    String sql = "UPDATE nhanvien SET Manhanvien = ?, Hoten = ?,Chucvu = ?,Ngaysinh = ?,Gioitinh = ?, Diachi = ?,Email = ?, Luong = ?, Status = ? WHERE ID = ?;";
+        System.out.println("DAL.DAOnv.updateNV()");
+    String sql = "UPDATE nhanvien SET Hoten = ?,Chucvu = ?,Ngaysinh = ?,Gioitinh = ?, Diachi = ?,Email = ?, Luong = ?, Status = ? WHERE ID = ?;";
 
     try {
         PreparedStatement ps = M_DBconnect.con.prepareStatement(sql);
-            ps.setString(1,n.getManv());
-            ps.setString(2,n.getTennv());
-            ps.setString(3,n.getChucvu());
-            ps.setObject(4,n.getDate());
-            ps.setString(5,n.getGt());
-            ps.setString(6,n.getDiachi());
-            ps.setString(7, n.getEmail());
-            ps.setInt(8, n.getLuong());
-            ps.setString(9, n.getStatus() ? "true" : "false");
-            ps.setInt(10, n.getId());
+            ps.setString(1,n.getTennv());
+            ps.setString(2,n.getChucvu());
+            ps.setObject(3,n.getDate());
+            ps.setString(4,n.getGt());
+            ps.setString(5,n.getDiachi());
+            ps.setString(6, n.getEmail());
+            ps.setInt(7, n.getLuong());
+            ps.setString(8, n.getStatus());
+            ps.setInt(9, n.getId());
         int affectedRows = ps.executeUpdate();
             return affectedRows > 0;
 

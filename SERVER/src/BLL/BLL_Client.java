@@ -1,21 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package BLL;
 
 import DTO.M_Client;
-import DTO.M_DBconnect;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author ASUS
- */
+
 public class BLL_Client {
     
     public ArrayList<M_Client> getListClients(){
@@ -38,34 +28,46 @@ public class BLL_Client {
 }
     public boolean Block (M_Client client){
         boolean status = false;
-        if(client.getBlock() != null){
+        if(client.getStatus()== null){
                 // Hiển thị hộp thoại với lựa chọn "Yes" hoặc "No"
             int result = JOptionPane.showConfirmDialog(
                     null,
-                    "Bạn có muốn mở khóa cho tài khoản này?",
+                    "Bạn có khóa cho tài khoản này?",
                     "Xác nhận",
                     JOptionPane.YES_NO_OPTION
             );
             // Xử lý kết quả lựa chọn
             if (result == JOptionPane.YES_OPTION) {
                 System.out.println("Bạn đã chọn Yes");
-                status = new DAL.DAOclient().Block(client);
+                status = new DAL.DAOclient().Status(client.getUsername(),"block");
             } else if (result == JOptionPane.NO_OPTION) status=true;
             else status=true;
-        }else{
+        }else if(client.getStatus().equals("online")){
+            JOptionPane.showMessageDialog(null, "Tài khoản đang sử dụng");
+            status=true;
+        }
+        else{
             int result = JOptionPane.showConfirmDialog(
                     null,
-                    "Bạn có muốn khóa tài khoản này?",
+                    "Bạn có muốn mở  khóa tài khoản này?",
                     "Xác nhận",
                     JOptionPane.YES_NO_OPTION
             );
             // Xử lý kết quả lựa chọn
             if (result == JOptionPane.YES_OPTION) {
                 System.out.println("Bạn đã chọn Yes");
-                status = new DAL.DAOclient().Block(client);
+                status = new DAL.DAOclient().Status(client.getUsername(),"");
             } else if (result == JOptionPane.NO_OPTION)status=true;
             else status=true;
         }
         return status;
     }
+      public M_Client SearchByUserName(String Username){
+        M_Client result = null;
+        for(M_Client cl:getListClients()){
+            if(cl.getUsername().equals(Username)) result = cl;
+        }
+        return result;
+    }
+        
 }

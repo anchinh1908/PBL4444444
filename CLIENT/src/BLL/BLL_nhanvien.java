@@ -59,12 +59,12 @@ public class BLL_nhanvien {
     }
        return result;
    }
-    public void ChangeStatusFalse (int ID){
+    public void ChangeStatusFalse (int ID,String name){
        
         List<M_Nhanvien> nvList = getListNV();
         for (M_Nhanvien cl : nvList) {
         if (cl.getId() == ID) {
-            cl.setStatus(false);
+            cl.setStatus(name);
             }
         }
    }
@@ -73,7 +73,7 @@ public class BLL_nhanvien {
         List<M_Nhanvien> nvList = getListNV();
         for (M_Nhanvien cl : nvList) {
         if (cl.getId() == ID) {
-            cl.setStatus(true);
+            cl.setStatus("editable");
             }
         }
    }

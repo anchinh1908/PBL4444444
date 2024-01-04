@@ -6,7 +6,7 @@ public class M_Sanpham {
     private String Tensp, Tenloai;
     private int Soluong;
     private int gia;
-    private boolean Status;
+    private String Status;
 
 
     public M_Sanpham(){
@@ -69,15 +69,15 @@ public class M_Sanpham {
     public void setGia(int gia) {
         this.gia = gia;
     }
-    
-    public boolean isStatus() {
+
+    public String getStatus() {
         return Status;
     }
 
-    public void setStatus(boolean Status) {
+    public void setStatus(String Status) {
         this.Status = Status;
     }
-
+ 
 @Override
     public String toString() {
         return "MaSP/"+Masp+"_TenSP/"+Tensp+"_Maloai/" + Maloai +"_SoLuong/" + Soluong +"_Gia/" +gia+"_Status/" + Status;
@@ -110,7 +110,7 @@ public class M_Sanpham {
                         sanpham.setGia(Integer.parseInt(value));
                         break;
                     case "Status":
-                        sanpham.setStatus(Boolean.parseBoolean(value));
+                        sanpham.setStatus(value);
                     break;
                 }
             }

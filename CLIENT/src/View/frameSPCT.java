@@ -61,27 +61,40 @@ public class frameSPCT extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 2, true), "Loại sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 20), new java.awt.Color(54, 33, 89))); // NOI18N
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel38.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel38.setForeground(new java.awt.Color(54, 33, 89));
         jLabel38.setText("Mã loại ");
+        jPanel1.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 62, 90, 38));
 
+        txtMaloai.setEditable(false);
         txtMaloai.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        txtMaloai.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 33, 89)));
+        txtMaloai.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        txtMaloai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMaloaiActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtMaloai, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 270, 38));
 
         jLabel39.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel39.setForeground(new java.awt.Color(54, 33, 89));
         jLabel39.setText("Tên loại ");
+        jPanel1.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 121, 117, 38));
 
         txtTenloai.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        txtTenloai.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 33, 89)));
+        txtTenloai.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        jPanel1.add(txtTenloai, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 270, 38));
 
         jLabel37.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel37.setForeground(new java.awt.Color(54, 33, 89));
         jLabel37.setText("Mô tả");
+        jPanel1.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 179, 80, 38));
 
         txtMota.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        txtMota.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 33, 89)));
+        txtMota.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        jPanel1.add(txtMota, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 180, 270, 38));
 
         btnOK.setBackground(new java.awt.Color(54, 33, 89));
         btnOK.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -93,6 +106,7 @@ public class frameSPCT extends javax.swing.JFrame {
                 btnOKActionPerformed(evt);
             }
         });
+        jPanel1.add(btnOK, new org.netbeans.lib.awtextra.AbsoluteConstraints(431, 68, 120, 50));
 
         btncancle.setBackground(new java.awt.Color(54, 33, 89));
         btncancle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -104,65 +118,19 @@ public class frameSPCT extends javax.swing.JFrame {
                 btncancleActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43)
-                        .addComponent(txtMaloai, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtMota, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTenloai, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(67, 67, 67)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btncancle, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(42, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtMaloai, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTenloai, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtMota, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(34, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btncancle, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45))
-        );
+        jPanel1.add(btncancle, new org.netbeans.lib.awtextra.AbsoluteConstraints(431, 156, 120, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -173,8 +141,7 @@ public class frameSPCT extends javax.swing.JFrame {
         if (maloai==0){
             M_SanphamCT spct=new M_SanphamCT();
 
-            if(txtMaloai.getText()!=null && txtTenloai.getText()!=null && txtMota.getText()!=null){
-                spct.setMaloai(Integer.parseInt(txtMaloai.getText()));
+            if( txtTenloai.getText()!=null && txtMota.getText()!=null){
                 spct.setTenloai(txtTenloai.getText());
                 spct.setMota(txtMota.getText());
             }
@@ -190,7 +157,7 @@ public class frameSPCT extends javax.swing.JFrame {
                 ct.setMaloai(maloai);
                 ct.setTenloai(txtTenloai.getText());
                 ct.setMota(txtMota.getText());
-                ct.setStatus(true);
+                ct.setStatus("editable");
             }
             else{
                 JOptionPane.showMessageDialog(this, "Chua nhap day du thong tin");
@@ -207,6 +174,10 @@ public class frameSPCT extends javax.swing.JFrame {
             soc.SendMess("StopChange:SPCT:"+maloai);
         }dispose();
     }//GEN-LAST:event_btncancleActionPerformed
+
+    private void txtMaloaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaloaiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMaloaiActionPerformed
 
     /**
      * @param args the command line arguments

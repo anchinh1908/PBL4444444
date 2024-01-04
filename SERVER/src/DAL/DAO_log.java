@@ -24,14 +24,14 @@ public class DAO_log {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 M_Log log = new M_Log();
-                log.setLog_id(rs.getInt("log_id"));
-                log.setPerformer_name(rs.getString("performer_name"));
-                log.setAction_type(rs.getString("action_type"));
-                log.setTable_name(rs.getString("table_name"));
-                log.setRecord_id(rs.getInt("record_id"));
+                log.setLogID(rs.getInt("log_id"));
+                log.setPerformerName(rs.getString("performer_name"));
+                log.setActionType(rs.getString("action_type"));
+                log.setTableName(rs.getString("table_name"));
+                log.setRecord(rs.getString("record"));
                 String dateStr = rs.getString("change_time");
                 SimpleDateFormat datefm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                log.setChange_time(datefm.parse(dateStr));
+                log.setChangeTime(datefm.parse(dateStr));
                 list.add(log);
             }
         } catch (SQLException | ParseException e) {
@@ -40,7 +40,7 @@ public class DAO_log {
     }
 
     // Hàm thêm một bản ghi log mới vào database
-    public boolean addLogNV(String name, String action ,int Record_iD) {
+    public boolean addLogNV(String name, String action ,String Record) {
         String sql = "INSERT INTO data_change_log VALUES (null,?,?,?,?,?)";
 
         try {
@@ -48,17 +48,21 @@ public class DAO_log {
             ps.setString(1, name);
             ps.setString(2, action);
             ps.setString(3, "nhân viên");
-            ps.setInt(4, Record_iD);
+            ps.setString(4, Record);
             ps.setString(5, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
             int affectedRows = ps.executeUpdate();
+            if( affectedRows > 0){
+                System.out.println("DAL.DAO_log.addLogNV()" + Record);
+            }
             return affectedRows > 0;
         } catch (SQLException e) {
+            e.printStackTrace();
             return false;
         }
     }
         // Hàm thêm một bản ghi log mới vào database
-    public boolean addLogSP(String name, String action ,int Record_iD) {
+    public boolean addLogSP(String name, String action ,String Record) {
         String sql = "INSERT INTO data_change_log VALUES (null,?,?,?,?,?)";
 
         try {
@@ -66,17 +70,18 @@ public class DAO_log {
             ps.setString(1, name);
             ps.setString(2, action);
             ps.setString(3, "sản phẩm");
-            ps.setInt(4, Record_iD);
+            ps.setString(4, Record);
             ps.setString(5, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
             int affectedRows = ps.executeUpdate();
+ 
             return affectedRows > 0;
         } catch (SQLException e) {
             return false;
         }
     }
             // Hàm thêm một bản ghi log mới vào database
-    public boolean addLogSPCT(String name, String action ,int Record_iD) {
+    public boolean addLogSPCT(String name, String action ,String Record) {
         String sql = "INSERT INTO data_change_log VALUES (null,?,?,?,?,?)";
 
         try {
@@ -84,7 +89,7 @@ public class DAO_log {
             ps.setString(1, name);
             ps.setString(2, action);
             ps.setString(3, "Loại sản phẩm");
-            ps.setInt(4, Record_iD);
+            ps.setString(4, Record);
             ps.setString(5, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
             int affectedRows = ps.executeUpdate();

@@ -1,40 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package DTO;
 
-import java.util.Date;
-import java.util.logging.Logger;
-
 public class M_Client {
-    private int ID;
-    private String Username, Password,Block,Status; 
+    private String Username, Password,Fullname,Status; 
 
     public M_Client() {
     }
 
-    public M_Client(String Username, String Password, String Block, String Status) {
+    public M_Client(String Username, String Password, String Fullname) {
         this.Username = Username;
         this.Password = Password;
-        this.Block = Block;
-        this.Status = Status;
+        this.Fullname = Fullname;
     }
-
-    public M_Client(int ID, String Username, String Password, String Block, String Status) {
-        this.ID = ID;
+    
+    public M_Client(String Username, String Password, String Fullname, String Status) {
         this.Username = Username;
         this.Password = Password;
-        this.Block = Block;
+        this.Fullname = Fullname;
         this.Status = Status;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
     }
 
     public String getUsername() {
@@ -53,14 +36,6 @@ public class M_Client {
         this.Password = Password;
     }
 
-    public String getBlock() {
-        return Block;
-    }
-
-    public void setBlock(String Block) {
-        this.Block = Block;
-    }
-
     public String getStatus() {
         return Status;
     }
@@ -68,8 +43,18 @@ public class M_Client {
     public void setStatus(String Status) {
         this.Status = Status;
     }
-    
-   
 
-    
+    public String getFullname() {
+        return Fullname;
+    }
+
+    public void setFullname(String Fullname) {
+        this.Fullname = Fullname;
+    }
+
+    @Override
+    public String toString() {
+        return "M_Client{" + "Username=" + Username + ", Password=" + Password + ", Fullname=" + Fullname + ", Status=" + Status + '}';
+    }
+  
 }

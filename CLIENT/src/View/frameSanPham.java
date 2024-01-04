@@ -113,10 +113,11 @@ public class frameSanPham extends javax.swing.JFrame {
         });
         jPanelThongtinnhanvien.add(btncancle, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 210, 130, 50));
 
+        txtMasp2.setEditable(false);
         txtMasp2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         txtMasp2.setToolTipText("");
-        txtMasp2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
-        jPanelThongtinnhanvien.add(txtMasp2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 213, 32));
+        txtMasp2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        jPanelThongtinnhanvien.add(txtMasp2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 52, 213, 40));
 
         jLabel29.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel29.setForeground(new java.awt.Color(54, 33, 89));
@@ -130,8 +131,8 @@ public class frameSanPham extends javax.swing.JFrame {
 
         txtTensp2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         txtTensp2.setToolTipText("");
-        txtTensp2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
-        jPanelThongtinnhanvien.add(txtTensp2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 213, 32));
+        txtTensp2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        jPanelThongtinnhanvien.add(txtTensp2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 132, 213, 40));
 
         jLabel32.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel32.setForeground(new java.awt.Color(54, 33, 89));
@@ -139,13 +140,13 @@ public class frameSanPham extends javax.swing.JFrame {
         jPanelThongtinnhanvien.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 106, 36));
 
         comboboxLoai2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        comboboxLoai2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 33, 89)));
+        comboboxLoai2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanelThongtinnhanvien.add(comboboxLoai2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 220, 210, 36));
 
         txtSoluong2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         txtSoluong2.setToolTipText("");
-        txtSoluong2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
-        jPanelThongtinnhanvien.add(txtSoluong2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 60, 220, 30));
+        txtSoluong2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        jPanelThongtinnhanvien.add(txtSoluong2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 50, 220, 40));
 
         jLabel30.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel30.setForeground(new java.awt.Color(54, 33, 89));
@@ -159,8 +160,8 @@ public class frameSanPham extends javax.swing.JFrame {
 
         txtGia2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         txtGia2.setToolTipText("");
-        txtGia2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 33, 89), 1, true));
-        jPanelThongtinnhanvien.add(txtGia2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 140, 220, 30));
+        txtGia2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        jPanelThongtinnhanvien.add(txtGia2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 130, 220, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -181,10 +182,9 @@ public class frameSanPham extends javax.swing.JFrame {
         if (ID==0){
             M_Sanpham sp = new M_Sanpham();
 
-            if(txtMasp2.getText()!=null && txtTensp2.getText()!=null && comboboxLoai2.getSelectedItem()!=null
+            if( txtTensp2.getText()!=null && comboboxLoai2.getSelectedItem()!=null
                 && txtSoluong2.getText()!=null  && txtGia2.getText()!=null){
                 sp.setTensp(txtTensp2.getText());
-                sp.setMasp(Integer.parseInt(txtMasp2.getText()));
                 sp.setMaloai(((M_cbbspct) comboboxLoai2.getSelectedItem()).getId());
                 sp.setSoluong(Integer.parseInt(txtSoluong2.getText()));
                 sp.setGia(Integer.parseInt(txtGia2.getText()));
@@ -198,14 +198,14 @@ public class frameSanPham extends javax.swing.JFrame {
             // trg hợp update là sẽ có ID
             M_Sanpham sp = new M_Sanpham();
 
-            if(txtMasp2.getText()!=null && txtTensp2.getText()!=null && comboboxLoai2.getSelectedItem()!=null
+            if(txtTensp2.getText()!=null && comboboxLoai2.getSelectedItem()!=null
                 && txtSoluong2.getText()!=null  && txtGia2.getText()!=null){
-                sp.setTensp(txtTensp2.getText());
                 sp.setMasp(Integer.parseInt(txtMasp2.getText()));
+                sp.setTensp(txtTensp2.getText());
                 sp.setMaloai(((M_cbbspct) comboboxLoai2.getSelectedItem()).getId());
                 sp.setSoluong(Integer.parseInt(txtSoluong2.getText()));
-                sp.setGia(Integer.parseInt(txtGia2.getText()));              
-                sp.setStatus(true);
+                sp.setGia(Integer.parseInt(txtGia2.getText())); 
+                sp.setStatus("editable");
             }
             else{
                 JOptionPane.showMessageDialog(this, "Ban can nhap day du thong tin");

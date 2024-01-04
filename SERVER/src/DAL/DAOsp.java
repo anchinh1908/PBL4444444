@@ -29,7 +29,7 @@ public class DAOsp {
                 n.setMaloai(rs.getInt("Maloai"));
                 n.setSoluong(rs.getInt("Soluong"));
                 n.setGia(rs.getInt("Gia"));
-                n.setStatus(rs.getBoolean("Status"));
+                n.setStatus(rs.getString("Status"));
                 list.add(n);                        
             }
         }catch(Exception e){
@@ -38,15 +38,14 @@ public class DAOsp {
         return list;
     } 
     public boolean AddSP(M_Sanpham s, String name){
-        String sql="insert into sanpham values(?,?,?,?,?,?)";
+        String sql="insert into sanpham values(null,?,?,?,?,?)";
         try{
             PreparedStatement ps = M_DBconnect.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1,(int) s.getMasp());
-            ps.setString(2,s.getTensp());
-            ps.setInt(3,s.getMaloai());
-            ps.setInt(4,s.getSoluong());
-            ps.setInt(5, (int) s.getGia());
-            ps.setString(6, "true");
+            ps.setString(1,s.getTensp());
+            ps.setInt(2,s.getMaloai());
+            ps.setInt(3,s.getSoluong());
+            ps.setInt(4, (int) s.getGia());
+            ps.setString(5,"editable");
             int affectedRows = ps.executeUpdate();
 
                 if (affectedRows > 0) {
@@ -54,7 +53,8 @@ public class DAOsp {
                     try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
                             int newId = generatedKeys.getInt(1);
-                            new DAL.DAO_log().addLogSP(name,"Insert",newId);
+                            s.setMasp(newId);
+                            new DAL.DAO_log().addLogSP(name,"Insert",s.toString());
                         } else {
                             System.out.println("Không thể lấy ID của đối tượng mới.");
                         }
@@ -79,25 +79,43 @@ public class DAOsp {
             return false;
         }
     }
+//    public boolean updateSP(M_Sanpham sp) {
+//        String sql = "UPDATE sanpham SET Tensanpham = ?, Maloai = ?, Soluong = ?, Gia = ?, Status = ? WHERE Masanpham = ?;";
+//
+//        try {
+//            PreparedStatement ps = M_DBconnect.con.prepareStatement(sql);
+//            ps.setString(1, sp.getTensp());
+//            ps.setInt(2, sp.getMaloai());
+//            ps.setInt(3, sp.getSoluong());
+//            ps.setInt(4, sp.getGia());
+//            ps.setString(5, sp.getStatus());
+//            ps.setInt(6, sp.getMasp());
+//            int affectedRows = ps.executeUpdate();
+//            return affectedRows > 0;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
     public boolean updateSP(M_Sanpham sp) {
-        String sql = "UPDATE sanpham SET Masanpham = ?, Tensanpham = ?, Maloai = ?, Soluong = ?, Gia = ?, Status = ? WHERE Masanpham = ?;";
+    String sql = "UPDATE sanpham SET Tensanpham = ?, Maloai = ?, Soluong = ?, Gia = ?, Status = ? WHERE Masanpham = ?;";
 
-        try {
-            PreparedStatement ps = M_DBconnect.con.prepareStatement(sql);
-            ps.setInt(1, sp.getMasp());
-            ps.setString(2, sp.getTensp());
-            ps.setInt(3, sp.getMaloai());
-            ps.setInt(4, sp.getSoluong());
-            ps.setInt(5, sp.getGia());
-            ps.setString(6, sp.getStatus() ? "true" : "false");
-            ps.setInt(7, sp.getMasp());
-            int affectedRows = ps.executeUpdate();
-            return affectedRows > 0;
-        } catch (SQLException e) {
-            return false;
-        }
+    try (PreparedStatement ps = M_DBconnect.con.prepareStatement(sql)) {
+        ps.setString(1, sp.getTensp());
+        ps.setInt(2, sp.getMaloai());
+        ps.setInt(3, sp.getSoluong());
+        ps.setInt(4, sp.getGia());
+        ps.setString(5, sp.getStatus());
+        ps.setInt(6, sp.getMasp());
+
+        int affectedRows = ps.executeUpdate();
+        return affectedRows > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
     }
-    
+}
+
 }
 
 
